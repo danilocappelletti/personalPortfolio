@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Danilo Cappelletti – Software Developer portfolio. 6+ years crafting innovative web applications with React.js, Node.js, and modern JavaScript." />
+  <meta name="keywords" content="Danilo Cappelletti, Software Developer, React, JavaScript, Node.js, Portfolio, Pisa" />
+  <meta property="og:title" content="Danilo Cappelletti | Software Developer" />
+  <meta property="og:description" content="Dynamic Software Developer with 6+ years of experience crafting innovative web applications." />
+  <meta property="og:type" content="website" />
+  <title>Danilo Cappelletti | Software Developer</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Custom Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-follower" id="cursor-follower"></div>
+
+  <!-- ─── NAVBAR ─────────────────────────────────────── -->
+  <nav id="navbar" class="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="nav-logo">DC<span class="dot">.</span></a>
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="#about"      class="nav-link">About</a></li>
+        <li><a href="#skills"     class="nav-link">Skills</a></li>
+        <li><a href="#experience" class="nav-link">Experience</a></li>
+        <li><a href="#education"  class="nav-link">Education</a></li>
+        <li><a href="#contact"    class="nav-link">Contact</a></li>
+      </ul>
+      <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ─── HERO ───────────────────────────────────────── -->
+  <section id="hero" class="hero">
+    <canvas id="particles-canvas"></canvas>
+    <div class="hero-bg-gradient"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <div class="hero-content">
+      <p class="hero-greeting">Hello, I'm</p>
+      <h1 class="hero-name">Danilo<br /><span class="gradient-text">Cappelletti</span></h1>
+      <div class="hero-title">
+        <span class="title-static">I'm a&nbsp;</span>
+        <span class="typed-text" id="typed-text"></span>
+        <span class="cursor-blink">|</span>
+      </div>
+      <p class="hero-description">
+        Dynamic Software Developer with 6+ years of experience crafting innovative web
+        applications that enhance user engagement and functionality.
+      </p>
+      <div class="hero-cta">
+        <a href="#about" class="btn btn-primary">
+          <span>Explore My Work</span>
+          <i class="fas fa-arrow-down"></i>
+        </a>
+        <a href="#contact" class="btn btn-glass">
+          <span>Get In Touch</span>
+          <i class="fas fa-envelope"></i>
+        </a>
+      </div>
+      <div class="hero-socials">
+        <a href="mailto:danilobcappelletti@gmail.com" class="social-icon" aria-label="Email">
+          <i class="fas fa-envelope"></i>
+        </a>
+        <a href="https://github.com/danilocappelletti" class="social-icon" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="https://it.linkedin.com/in/danilo-cappelletti-b9b3731a3" class="social-icon" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <div class="mouse"><div class="wheel"></div></div>
+      <p>Scroll</p>
+    </div>
+  </section>
+
+  <!-- ─── ABOUT ──────────────────────────────────────── -->
+  <section id="about" class="about section">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <span class="section-tag">Get to know me</span>
+        <h2 class="section-title">About <span class="gradient-text">Me</span></h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-image-col" data-aos="fade-right">
+          <div class="about-image-wrapper">
+            <div class="about-image-bg"></div>
+            <img src="assets/photo.jpeg" alt="Danilo Cappelletti" class="about-photo" />
+            <div class="about-badge">
+              <span class="badge-number">6+</span>
+              <span class="badge-text">Years of<br />Experience</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-content" data-aos="fade-left">
+          <h3>Software Developer based in <span class="gradient-text">Pisa, Italy</span></h3>
+          <p class="about-bio">
+            Dynamic Software Developer with 6 years of experience, proficient in crafting innovative
+            web applications that enhance user engagement and functionality. Expertise spans across
+            HTML, CSS, and Javascript, complemented by a strong foundation in React.js and Node.js.
+          </p>
+          <p class="about-bio">
+            Adept at collaborating with cross-functional teams to deliver high-quality software
+            solutions that meet evolving business needs. Passionate about leveraging technology to
+            drive efficiency and improve user experiences. Committed to continuous learning and
+            adapting to emerging technologies.
+          </p>
+          <div class="about-stats">
+            <div class="stat">
+              <span class="stat-number" data-target="6">0</span><span class="stat-number">+</span>
+              <span class="stat-label">Years Exp.</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number" data-target="3">0</span>
+              <span class="stat-label">Companies</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number" data-target="8">0</span><span class="stat-number">+</span>
+              <span class="stat-label">Technologies</span>
+            </div>
+          </div>
+          <div class="about-details">
+            <div class="detail-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>Via di pratale 7, Pisa, Italy</span>
+            </div>
+            <div class="detail-item">
+              <i class="fas fa-phone"></i>
+              <span>+39 345 806 2933</span>
+            </div>
+            <div class="detail-item">
+              <i class="fas fa-envelope"></i>
+              <span>danilobcappelletti@gmail.com</span>
+            </div>
+          </div>
+          <a href="Resumee.pdf" download class="btn btn-primary">
+            <span>Download CV</span>
+            <i class="fas fa-download"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SKILLS ─────────────────────────────────────── -->
+  <section id="skills" class="skills section">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <span class="section-tag">What I know</span>
+        <h2 class="section-title">My <span class="gradient-text">Skills</span></h2>
+      </div>
+      <div class="skills-grid">
+
+        <div class="skill-card" data-aos="fade-up" data-aos-delay="0">
+          <div class="skill-icon html-icon"><i class="fab fa-html5"></i></div>
+          <div class="skill-info">
+            <div class="skill-top"><span class="skill-name">HTML5</span><span class="skill-pct">95%</span></div>
+            <div class="skill-bar"><div class="skill-fill" data-width="95"></div></div>
+          </div>
+        </div>
+
+        <div class="skill-card" data-aos="fade-up" data-aos-delay="60">
+          <div class="skill-icon css-icon"><i class="fab fa-css3-alt"></i></div>
+          <div class="skill-info">
+            <div class="skill-top"><span class="skill-name">CSS3</span><span class="skill-pct">90%</span></div>
+            <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
+          </div>
+        </div>
+
+        <div class="skill-card" data-aos="fade-up" data-aos-delay="120">
+          <div class="skill-icon sass-icon"><i class="fab fa-sass"></i></div>
+          <div class="skill-info">
+            <div class="skill-top"><span class="skill-name">SCSS</span><span class="skill-pct">85%</span></div>
+            <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
+          </div>
+        </div>
+
+        <div class="skill-card" data-aos="fade-up" data-aos-delay="180">
+          <div class="skill-icon js-icon"><i class="fab fa-js"></i></div>
+          <div class="skill-info">
+            <div class="skill-top"><span class="skill-name">JavaScript</span><span class="skill-pct">90%</span></div>
+            <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
+          </div>
+        </div>
+
+        <div class="skill-card" data-aos="fade-up" data-aos-delay="240">
+          <div class="skill-icon react-icon"><i class="fab fa-react"></i></div>
+          <div class="skill-info">
+            <div class="skill-top"><span class="skill-name">React.js</span><span class="skill-pct">85%</span></div>
+            <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
+          </div>
+        </div>
+
+        <div class="skill-card" data-aos="fade-up" data-aos-delay="300">
+          <div class="skill-icon node-icon"><i class="fab fa-node-js"></i></div>
+          <div class="skill-info">
+            <div class="skill-top"><span class="skill-name">Node.js</span><span class="skill-pct">75%</span></div>
+            <div class="skill-bar"><div class="skill-fill" data-width="75"></div></div>
+          </div>
+        </div>
+
+        <div class="skill-card" data-aos="fade-up" data-aos-delay="360">
+          <div class="skill-icon py-icon"><i class="fab fa-python"></i></div>
+          <div class="skill-info">
+            <div class="skill-top"><span class="skill-name">Python</span><span class="skill-pct">70%</span></div>
+            <div class="skill-bar"><div class="skill-fill" data-width="70"></div></div>
+          </div>
+        </div>
+
+        <div class="skill-card" data-aos="fade-up" data-aos-delay="420">
+          <div class="skill-icon next-icon">
+            <svg viewBox="0 0 128 128" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M64 0C28.7 0 0 28.7 0 64s28.7 64 64 64c11.2 0 21.7-2.9 30.8-7.9L48.4 55.3v36.6H35.1V36.4h17.8l65.6 104.5C131.1 129.5 128 97.1 128 64 128 28.7 99.3 0 64 0zm22.2 92.4L73.8 72.2v-1.8h-.1L34.9 11.7l.3-.2h13.3l45.9 73z"/>
+            </svg>
+          </div>
+          <div class="skill-info">
+            <div class="skill-top"><span class="skill-name">Next.js</span><span class="skill-pct">75%</span></div>
+            <div class="skill-bar"><div class="skill-fill" data-width="75"></div></div>
+          </div>
+        </div>
+
+        <div class="skill-card" data-aos="fade-up" data-aos-delay="480">
+          <div class="skill-icon vue-icon"><i class="fab fa-vuejs"></i></div>
+          <div class="skill-info">
+            <div class="skill-top"><span class="skill-name">Vue.js</span><span class="skill-pct">85%</span></div>
+            <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
+          </div>
+        </div>
+
+        <div class="skill-card" data-aos="fade-up" data-aos-delay="540">
+          <div class="skill-icon docker-icon"><i class="fab fa-docker"></i></div>
+          <div class="skill-info">
+            <div class="skill-top"><span class="skill-name">Docker</span><span class="skill-pct">70%</span></div>
+            <div class="skill-bar"><div class="skill-fill" data-width="70"></div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── EXPERIENCE ─────────────────────────────────── -->
+  <section id="experience" class="experience section">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <span class="section-tag">Where I've worked</span>
+        <h2 class="section-title">Work <span class="gradient-text">Experience</span></h2>
+      </div>
+
+      <div class="timeline">
+        <!-- Job 1 – current -->
+        <div class="timeline-item" data-aos="fade-up">
+          <div class="timeline-connector"></div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <div class="timeline-title-group">
+                <h3 class="timeline-role">Software Developer</h3>
+                <span class="timeline-company">Stetel Srl<span class="company-location"> · Leghorn, Italy</span></span>
+              </div>
+              <span class="timeline-badge current"><i class="fas fa-circle pulse-dot"></i>Current</span>
+            </div>
+            <span class="timeline-date"><i class="fas fa-calendar-alt"></i>&nbsp;November 2025 – Present</span>
+            <p class="timeline-desc">
+              Building modern web applications with a focus on Vue.js, delivering scalable and
+              maintainable front-end solutions. Working with Docker for containerised development
+              environments and collaborating with the team to ship high-quality features.
+            </p>
+            <div class="timeline-tags">
+              <span class="tag">Vue.js</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">Docker</span>
+              <span class="tag">REST APIs</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Job 2 -->
+        <div class="timeline-item" data-aos="fade-up" data-aos-delay="80">
+          <div class="timeline-connector"></div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <div class="timeline-title-group">
+                <h3 class="timeline-role">Software Developer</h3>
+                <span class="timeline-company">Apparound<span class="company-location"> · Pisa, Italy</span></span>
+              </div>
+            </div>
+            <span class="timeline-date"><i class="fas fa-calendar-alt"></i>&nbsp;September 2022 – September 2025</span>
+            <p class="timeline-desc">
+              Led development of enterprise-grade web applications, architecting scalable
+              front-end solutions using React.js and Node.js. Collaborated with cross-functional teams
+              to deliver high-quality software that meets evolving business requirements.
+            </p>
+            <div class="timeline-tags">
+              <span class="tag">React.js</span>
+              <span class="tag">Node.js</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">REST APIs</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Job 2 -->
+        <div class="timeline-item" data-aos="fade-up" data-aos-delay="100">
+          <div class="timeline-connector"></div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <div class="timeline-title-group">
+                <h3 class="timeline-role">Web Developer</h3>
+                <span class="timeline-company">Unikey Corporation<span class="company-location"> · Pisa, Italy</span></span>
+              </div>
+            </div>
+            <span class="timeline-date"><i class="fas fa-calendar-alt"></i>&nbsp;September 2020 – September 2022</span>
+            <p class="timeline-desc">
+              Built responsive web interfaces and full-stack applications, collaborating with product
+              teams to translate design requirements into performant, accessible web experiences
+              using modern web technologies.
+            </p>
+            <div class="timeline-tags">
+              <span class="tag">HTML/CSS</span>
+              <span class="tag">SCSS</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">React.js</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Job 3 -->
+        <div class="timeline-item" data-aos="fade-up" data-aos-delay="200">
+          <div class="timeline-connector"></div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <div class="timeline-title-group">
+                <h3 class="timeline-role">Front End Developer</h3>
+                <span class="timeline-company">JC Management<span class="company-location"> · Remote</span></span>
+              </div>
+            </div>
+            <span class="timeline-date"><i class="fas fa-calendar-alt"></i>&nbsp;May 2021 – August 2022</span>
+            <p class="timeline-desc">
+              Developed front-end components and interactive user interfaces for client projects.
+              Focused on delivering pixel-perfect implementations and seamless user experiences
+              across all devices and screen sizes.
+            </p>
+            <div class="timeline-tags">
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">React.js</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── EDUCATION ──────────────────────────────────── -->
+  <section id="education" class="education section">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <span class="section-tag">My background</span>
+        <h2 class="section-title">Education</h2>
+      </div>
+      <div class="education-card" data-aos="fade-up">
+        <div class="edu-icon"><i class="fas fa-graduation-cap"></i></div>
+        <div class="edu-info">
+          <h3>High School Diploma</h3>
+          <span class="edu-school">I.I.S. "Zuccarelli" &nbsp;·&nbsp; Manciano, Italy</span>
+          <div class="edu-grade">
+            <span class="grade-label">Final Grade</span>
+            <span class="grade-value">98 / 100</span>
+          </div>
+        </div>
+        <div class="edu-decoration"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CONTACT ────────────────────────────────────── -->
+  <section id="contact" class="contact section">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <span class="section-tag">Let's talk</span>
+        <h2 class="section-title">Get In <span class="gradient-text">Touch</span></h2>
+        <p class="section-subtitle">Have a project in mind? I'd love to hear about it. Send me a message and let's make it happen.</p>
+      </div>
+
+      <div class="contact-centered" data-aos="fade-up">
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+          <div class="contact-text">
+            <span class="contact-label">Email</span>
+            <a href="mailto:danilobcappelletti@gmail.com" class="contact-value">danilobcappelletti@gmail.com</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fas fa-phone"></i></div>
+          <div class="contact-text">
+            <span class="contact-label">Phone</span>
+            <a href="tel:+393458062933" class="contact-value">+39 345 806 2933</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div class="contact-text">
+            <span class="contact-label">Location</span>
+            <span class="contact-value">Pisa, Italy</span>
+          </div>
+        </div>
+        <div class="contact-socials">
+          <a href="mailto:danilobcappelletti@gmail.com" class="contact-social-link" aria-label="Email"><i class="fas fa-envelope"></i></a>
+          <a href="https://github.com/danilocappelletti" class="contact-social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          <a href="https://it.linkedin.com/in/danilo-cappelletti-b9b3731a3" class="contact-social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <a href="#hero" class="footer-logo">DC<span class="dot">.</span></a>
+        <p class="footer-tagline">Crafting digital experiences with passion &amp; precision.</p>
+        <div class="footer-socials">
+          <a href="mailto:danilobcappelletti@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+          <a href="https://github.com/danilocappelletti" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          <a href="https://it.linkedin.com/in/danilo-cappelletti-b9b3731a3" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Danilo Cappelletti &nbsp;·&nbsp; Built with <span class="heart">♥</span> and lots of JavaScript.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+# Ignore everything
+*
+
+# Except these
+!.gitignore
+!index.html
+!style.css
+!script.js
+!assets/
+!assets/**
