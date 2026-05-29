@@ -106,7 +106,7 @@ document.querySelectorAll('a,button,.skill-card,.timeline-card,.education-card')
 const typedEl = document.getElementById('typed-text');
 const phrasesByLang = {
   en: ['Software Developer', 'Frontend Engineer', 'AI Enthusiast'],
-  it: ['Software Developer', 'Ingegnere Frontend', 'Conoscitore di AI'],
+  it: ['Software Developer', 'Ingegnere Frontend', 'Esperto di AI'],
 };
 let phrases = [...phrasesByLang.en];
 let pIdx = 0, cIdx = 0, deleting = false;
@@ -324,7 +324,7 @@ const i18n = {
     'contact-phone-label':   'Phone',
     'contact-location-label':'Location',
 
-    'footer-tagline':   'Crafting digital experiences with passion &amp; precision.',
+    'footer-tagline':   'Crafting digital experiences with passion & precision.',
     'footer-copyright': '© 2026 Danilo Cappelletti &nbsp;·&nbsp; Built with <span class="heart">♥</span> and lots of JavaScript.',
   },
   it: {
