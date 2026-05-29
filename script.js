@@ -105,8 +105,8 @@ document.querySelectorAll('a,button,.skill-card,.timeline-card,.education-card')
    ============================================================ */
 const typedEl = document.getElementById('typed-text');
 const phrasesByLang = {
-  en: ['Software Developer', 'Frontend Engineer', 'Vue.js Enthusiast', 'Web Craftsman'],
-  it: ['Sviluppatore Software', 'Ingegnere Frontend', 'Esperto Vue.js',  'Artigiano del Web'],
+  en: ['Software Developer', 'Frontend Engineer', 'AI Enthusiast'],
+  it: ['Software Developer', 'Ingegnere Frontend', 'Conoscitore di AI'],
 };
 let phrases = [...phrasesByLang.en];
 let pIdx = 0, cIdx = 0, deleting = false;
