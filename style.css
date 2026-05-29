@@ -510,6 +510,11 @@ ul  { list-style: none; }
 .node-icon { color:#6cc24a; }
 .py-icon   { color:#4584b6; }
 .next-icon   { color:var(--text-muted); }
+.skill-img-icon {
+  width:1.9rem; height:1.9rem;
+  object-fit:contain;
+  filter:invert(1) brightness(0.85);
+}
 .vue-icon    { color:#42b883; }
 .docker-icon { color:#2496ed; }
 
