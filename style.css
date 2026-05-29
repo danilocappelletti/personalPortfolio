@@ -193,6 +193,9 @@ ul  { list-style: none; }
   display:flex; align-items:center; justify-content:space-between;
   flex-wrap:nowrap; gap:12px;
 }
+.nav-actions {
+  display:flex; align-items:center; gap:12px;
+}
 .nav-logo {
   font-family:var(--font-h);
   font-size:1.75rem; font-weight:700;
@@ -927,10 +930,9 @@ a.contact-value:hover { color:var(--primary-light); }
   }
   .nav-menu.open  { right:0; }
   .hamburger      { display:flex; }
-  .lang-btn       { padding:4px 10px; font-size:.72rem; }
 
-  .hero-cta { flex-direction:column; align-items:center; }
-  .hero-content { padding-bottom:120px; }
+  .hero-cta       { flex-direction:column; align-items:center; }
+  .scroll-indicator { display:none; }
 
   .about-stats { flex-direction:column; gap:0; }
   .stat { border-right:none; border-bottom:1px solid var(--border); }
