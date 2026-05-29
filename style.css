@@ -362,7 +362,7 @@ ul  { list-style: none; }
 .scroll-indicator {
   position:absolute; bottom:36px; left:0; right:0;
   display:flex; flex-direction:column; align-items:center; gap:8px;
-  z-index:2;
+  z-index:2; pointer-events:none;
   opacity:0; animation:fadeSlideUp .8s ease 1.35s forwards;
 }
 .mouse {
@@ -928,6 +928,7 @@ a.contact-value:hover { color:var(--primary-light); }
   .hamburger      { display:flex; }
 
   .hero-cta { flex-direction:column; align-items:center; }
+  .hero-content { padding-bottom:120px; }
 
   .about-stats { flex-direction:column; gap:0; }
   .stat { border-right:none; border-bottom:1px solid var(--border); }
