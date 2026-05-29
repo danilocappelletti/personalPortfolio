@@ -104,7 +104,11 @@ document.querySelectorAll('a,button,.skill-card,.timeline-card,.education-card')
    TYPING EFFECT
    ============================================================ */
 const typedEl = document.getElementById('typed-text');
-const phrases = ['Software Developer', 'Frontend Engineer', 'AI Enthusiast', 'Nerd at Heart'];
+const phrasesByLang = {
+  en: ['Software Developer', 'Frontend Engineer', 'Vue.js Enthusiast', 'Web Craftsman'],
+  it: ['Sviluppatore Software', 'Ingegnere Frontend', 'Esperto Vue.js',  'Artigiano del Web'],
+};
+let phrases = [...phrasesByLang.en];
 let pIdx = 0, cIdx = 0, deleting = false;
 
 function typeStep() {
@@ -260,3 +264,145 @@ window.addEventListener('resize', () => {
   resizeCanvas();
   initParticles();
 }, { passive: true });
+
+/* ============================================================
+   I18N – MULTI-LANGUAGE (EN / IT)
+   ============================================================ */
+const i18n = {
+  en: {
+    'nav-about':      'About',
+    'nav-skills':     'Skills',
+    'nav-experience': 'Experience',
+    'nav-education':  'Education',
+    'nav-contact':    'Contact',
+
+    'hero-greeting':    "Hello, I'm",
+    'hero-title-static': "I'm a\u00a0",
+    'hero-description': 'Dynamic Software Developer with 6+ years of experience crafting innovative web applications that enhance user engagement and functionality.',
+    'hero-cta-explore': 'Explore My Work',
+    'hero-cta-contact': 'Get In Touch',
+    'hero-scroll':      'Scroll',
+
+    'about-tag':           'Get to know me',
+    'about-title':         'About <span class="gradient-text">Me</span>',
+    'about-heading':       'Software Developer based in <span class="gradient-text">Pisa, Italy</span>',
+    'about-bio-1':         'Dynamic Software Developer with 6 years of experience, proficient in crafting innovative web applications that enhance user engagement and functionality. Expertise spans across HTML, CSS, and Javascript, complemented by a strong foundation in React.js and Node.js.',
+    'about-bio-2':         "Adept at collaborating with cross-functional teams to deliver high-quality software solutions that meet evolving business needs. Passionate about leveraging technology to drive efficiency and improve user experiences. Committed to continuous learning and adapting to emerging technologies.",
+    'about-stat-years':     'Years Exp.',
+    'about-stat-companies': 'Companies',
+    'about-stat-tech':      'Technologies',
+    'about-badge-text':     'Years of<br />Experience',
+
+    'skills-tag':   'What I know',
+    'skills-title': 'My <span class="gradient-text">Skills</span>',
+
+    'exp-tag':      "Where I've worked",
+    'exp-title':    'Work <span class="gradient-text">Experience</span>',
+    'exp-current':  'Current',
+    'exp-job1-desc': 'Building modern web applications with a focus on Vue.js, delivering scalable and maintainable front-end solutions. Working with Docker for containerised development environments and collaborating with the team to ship high-quality features.',
+    'exp-job2-desc': 'Led development of enterprise-grade web applications, architecting scalable front-end solutions using React.js and Node.js. Collaborated with cross-functional teams to deliver high-quality software that meets evolving business requirements.',
+    'exp-job3-desc': 'Built responsive web interfaces and full-stack applications, collaborating with product teams to translate design requirements into performant, accessible web experiences using modern web technologies.',
+    'exp-job4-desc': 'Developed front-end components and interactive user interfaces for client projects. Focused on delivering pixel-perfect implementations and seamless user experiences across all devices and screen sizes.',
+
+    'edu-tag':        'My background',
+    'edu-title':      'Education',
+    'edu-diploma':    'High School Diploma',
+    'edu-grade-label':'Final Grade',
+
+    'contact-tag':           "Let's talk",
+    'contact-title':         'Get In <span class="gradient-text">Touch</span>',
+    'contact-subtitle':      "Have a project in mind? I'd love to hear about it. Send me a message and let's make it happen.",
+    'contact-email-label':   'Email',
+    'contact-phone-label':   'Phone',
+    'contact-location-label':'Location',
+
+    'footer-tagline':   'Crafting digital experiences with passion &amp; precision.',
+    'footer-copyright': '© 2026 Danilo Cappelletti &nbsp;·&nbsp; Built with <span class="heart">♥</span> and lots of JavaScript.',
+  },
+  it: {
+    'nav-about':      'Chi sono',
+    'nav-skills':     'Competenze',
+    'nav-experience': 'Esperienza',
+    'nav-education':  'Formazione',
+    'nav-contact':    'Contatti',
+
+    'hero-greeting':    'Ciao, sono',
+    'hero-title-static': 'Sono un\u00a0',
+    'hero-description': 'Sviluppatore Software con oltre 6 anni di esperienza nella creazione di applicazioni web innovative che migliorano il coinvolgimento degli utenti e le loro funzionalità.',
+    'hero-cta-explore': 'Scopri il mio lavoro',
+    'hero-cta-contact': 'Contattami',
+    'hero-scroll':      'Scorri',
+
+    'about-tag':           'Conoscimi',
+    'about-title':         'Chi <span class="gradient-text">Sono</span>',
+    'about-heading':       'Software Developer a <span class="gradient-text">Pisa, Italia</span>',
+    'about-bio-1':         'Sviluppatore Software dinamico con 6 anni di esperienza, specializzato nella creazione di applicazioni web innovative che migliorano il coinvolgimento degli utenti. Le competenze spaziano da HTML, CSS e Javascript, con solide basi in React.js e Node.js.',
+    'about-bio-2':         "Abile nel collaborare con team multifunzionali per consegnare soluzioni software di alta qualità che soddisfano le esigenze aziendali. Appassionato di tecnologia e miglioramento dell'esperienza utente. Impegnato nell'apprendimento continuo e nell'adattamento alle nuove tecnologie.",
+    'about-stat-years':     'Anni Esp.',
+    'about-stat-companies': 'Aziende',
+    'about-stat-tech':      'Tecnologie',
+    'about-badge-text':     'Anni di<br />Esperienza',
+
+    'skills-tag':   'Cosa so fare',
+    'skills-title': 'Le mie <span class="gradient-text">Competenze</span>',
+
+    'exp-tag':      'Dove ho lavorato',
+    'exp-title':    'Esperienza <span class="gradient-text">Lavorativa</span>',
+    'exp-current':  'In corso',
+    'exp-job1-desc': 'Sviluppo di applicazioni web moderne con focus su Vue.js, consegnando soluzioni front-end scalabili e manutenibili. Utilizzo di Docker per ambienti di sviluppo containerizzati e collaborazione con il team per rilasciare funzionalità di alta qualità.',
+    'exp-job2-desc': 'Ho guidato lo sviluppo di applicazioni web enterprise, progettando soluzioni front-end scalabili con React.js e Node.js. Collaborazione con team interfunzionali per consegnare software di alta qualità in linea con i requisiti aziendali.',
+    'exp-job3-desc': 'Ho realizzato interfacce web responsive e applicazioni full-stack, collaborando con i team di prodotto per trasformare i requisiti di design in esperienze web performanti e accessibili con tecnologie moderne.',
+    'exp-job4-desc': 'Ho sviluppato componenti front-end e interfacce utente interattive per progetti clienti, con focus sulla consegna di implementazioni pixel-perfect e esperienze utente fluide su tutti i dispositivi e schermi.',
+
+    'edu-tag':        'La mia formazione',
+    'edu-title':      'Formazione',
+    'edu-diploma':    'Diploma di Maturità',
+    'edu-grade-label':'Voto Finale',
+
+    'contact-tag':           'Parliamo',
+    'contact-title':         '<span class="gradient-text">Contattami</span>',
+    'contact-subtitle':      'Hai un progetto in mente? Sarei felice di sentirti. Mandami un messaggio e realizziamolo insieme.',
+    'contact-email-label':   'Email',
+    'contact-phone-label':   'Telefono',
+    'contact-location-label':'Posizione',
+
+    'footer-tagline':   'Creare esperienze digitali con passione e precisione.',
+    'footer-copyright': '© 2026 Danilo Cappelletti &nbsp;·&nbsp; Realizzato con <span class="heart">♥</span> e tanto JavaScript.',
+  },
+};
+
+let currentLang = localStorage.getItem('dc-lang') || 'en';
+
+function setLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('dc-lang', lang);
+  document.documentElement.lang = lang;
+
+  // textContent nodes
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const val = i18n[lang][el.dataset.i18n];
+    if (val !== undefined) el.textContent = val;
+  });
+
+  // innerHTML nodes (gradient spans, <br>, etc.)
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const val = i18n[lang][el.dataset.i18nHtml];
+    if (val !== undefined) el.innerHTML = val;
+  });
+
+  // Update typed phrases and restart animation
+  phrases = [...phrasesByLang[lang]];
+  pIdx = 0; cIdx = 0; deleting = false;
+  if (typedEl) typedEl.textContent = '';
+
+  // Update button label
+  const btn = document.getElementById('lang-btn');
+  if (btn) btn.textContent = lang === 'en' ? 'IT' : 'EN';
+}
+
+document.getElementById('lang-btn')?.addEventListener('click', () => {
+  setLanguage(currentLang === 'en' ? 'it' : 'en');
+});
+
+// Apply saved/default language on load
+setLanguage(currentLang);

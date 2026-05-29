@@ -32,12 +32,13 @@
     <div class="nav-container">
       <a href="#hero" class="nav-logo">DC<span class="dot">.</span></a>
       <ul class="nav-menu" id="nav-menu">
-        <li><a href="#about"      class="nav-link">About</a></li>
-        <li><a href="#skills"     class="nav-link">Skills</a></li>
-        <li><a href="#experience" class="nav-link">Experience</a></li>
-        <li><a href="#education"  class="nav-link">Education</a></li>
-        <li><a href="#contact"    class="nav-link">Contact</a></li>
+        <li><a href="#about"      class="nav-link" data-i18n="nav-about">About</a></li>
+        <li><a href="#skills"     class="nav-link" data-i18n="nav-skills">Skills</a></li>
+        <li><a href="#experience" class="nav-link" data-i18n="nav-experience">Experience</a></li>
+        <li><a href="#education"  class="nav-link" data-i18n="nav-education">Education</a></li>
+        <li><a href="#contact"    class="nav-link" data-i18n="nav-contact">Contact</a></li>
       </ul>
+      <button class="lang-btn" id="lang-btn" aria-label="Switch language">IT</button>
       <div class="hamburger" id="hamburger">
         <span></span><span></span><span></span>
       </div>
@@ -53,24 +54,24 @@
     <div class="orb orb-3"></div>
 
     <div class="hero-content">
-      <p class="hero-greeting">Hello, I'm</p>
+      <p class="hero-greeting" data-i18n="hero-greeting">Hello, I'm</p>
       <h1 class="hero-name">Danilo<br /><span class="gradient-text">Cappelletti</span></h1>
       <div class="hero-title">
-        <span class="title-static">I'm a&nbsp;</span>
+        <span class="title-static" data-i18n="hero-title-static">I'm a&nbsp;</span>
         <span class="typed-text" id="typed-text"></span>
         <span class="cursor-blink">|</span>
       </div>
-      <p class="hero-description">
+      <p class="hero-description" data-i18n="hero-description">
         Dynamic Software Developer with 6+ years of experience crafting innovative web
         applications that enhance user engagement and functionality.
       </p>
       <div class="hero-cta">
         <a href="#about" class="btn btn-primary">
-          <span>Explore My Work</span>
+          <span data-i18n="hero-cta-explore">Explore My Work</span>
           <i class="fas fa-arrow-down"></i>
         </a>
         <a href="#contact" class="btn btn-glass">
-          <span>Get In Touch</span>
+          <span data-i18n="hero-cta-contact">Get In Touch</span>
           <i class="fas fa-envelope"></i>
         </a>
       </div>
@@ -89,7 +90,7 @@
 
     <div class="scroll-indicator">
       <div class="mouse"><div class="wheel"></div></div>
-      <p>Scroll</p>
+      <p data-i18n="hero-scroll">Scroll</p>
     </div>
   </section>
 
@@ -97,8 +98,8 @@
   <section id="about" class="about section">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
-        <span class="section-tag">Get to know me</span>
-        <h2 class="section-title">About <span class="gradient-text">Me</span></h2>
+        <span class="section-tag" data-i18n="about-tag">Get to know me</span>
+        <h2 class="section-title" data-i18n-html="about-title">About <span class="gradient-text">Me</span></h2>
       </div>
       <div class="about-grid">
         <div class="about-image-col" data-aos="fade-right">
@@ -107,19 +108,19 @@
             <img src="assets/photo.jpg" alt="Danilo Cappelletti" class="about-photo" />
             <div class="about-badge">
               <span class="badge-number">6+</span>
-              <span class="badge-text">Years of<br />Experience</span>
+              <span class="badge-text" data-i18n-html="about-badge-text">Years of<br />Experience</span>
             </div>
           </div>
         </div>
 
         <div class="about-content" data-aos="fade-left">
-          <h3>Software Developer based in <span class="gradient-text">Pisa, Italy</span></h3>
-          <p class="about-bio">
+          <h3 data-i18n-html="about-heading">Software Developer based in <span class="gradient-text">Pisa, Italy</span></h3>
+          <p class="about-bio" data-i18n="about-bio-1">
             Dynamic Software Developer with 6 years of experience, proficient in crafting innovative
             web applications that enhance user engagement and functionality. Expertise spans across
             HTML, CSS, and Javascript, complemented by a strong foundation in React.js and Node.js.
           </p>
-          <p class="about-bio">
+          <p class="about-bio" data-i18n="about-bio-2">
             Adept at collaborating with cross-functional teams to deliver high-quality software
             solutions that meet evolving business needs. Passionate about leveraging technology to
             drive efficiency and improve user experiences. Committed to continuous learning and
@@ -128,15 +129,15 @@
           <div class="about-stats">
             <div class="stat">
               <span class="stat-number" data-target="6">0</span><span class="stat-number">+</span>
-              <span class="stat-label">Years Exp.</span>
+              <span class="stat-label" data-i18n="about-stat-years">Years Exp.</span>
             </div>
             <div class="stat">
               <span class="stat-number" data-target="3">0</span>
-              <span class="stat-label">Companies</span>
+              <span class="stat-label" data-i18n="about-stat-companies">Companies</span>
             </div>
             <div class="stat">
               <span class="stat-number" data-target="8">0</span><span class="stat-number">+</span>
-              <span class="stat-label">Technologies</span>
+              <span class="stat-label" data-i18n="about-stat-tech">Technologies</span>
             </div>
           </div>
           <div class="about-details">
@@ -162,8 +163,8 @@
   <section id="skills" class="skills section">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
-        <span class="section-tag">What I know</span>
-        <h2 class="section-title">My <span class="gradient-text">Skills</span></h2>
+        <span class="section-tag" data-i18n="skills-tag">What I know</span>
+        <h2 class="section-title" data-i18n-html="skills-title">My <span class="gradient-text">Skills</span></h2>
       </div>
       <div class="skills-grid">
 
@@ -259,8 +260,8 @@
   <section id="experience" class="experience section">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
-        <span class="section-tag">Where I've worked</span>
-        <h2 class="section-title">Work <span class="gradient-text">Experience</span></h2>
+        <span class="section-tag" data-i18n="exp-tag">Where I've worked</span>
+        <h2 class="section-title" data-i18n-html="exp-title">Work <span class="gradient-text">Experience</span></h2>
       </div>
 
       <div class="timeline">
@@ -274,10 +275,10 @@
                 <h3 class="timeline-role">Software Developer</h3>
                 <span class="timeline-company">Stetel Srl<span class="company-location"> · Leghorn, Italy</span></span>
               </div>
-              <span class="timeline-badge current"><i class="fas fa-circle pulse-dot"></i>Current</span>
+              <span class="timeline-badge current"><i class="fas fa-circle pulse-dot"></i><span data-i18n="exp-current">Current</span></span>
             </div>
             <span class="timeline-date"><i class="fas fa-calendar-alt"></i>&nbsp;November 2025 – Present</span>
-            <p class="timeline-desc">
+            <p class="timeline-desc" data-i18n="exp-job1-desc">
               Building modern web applications with a focus on Vue.js, delivering scalable and
               maintainable front-end solutions. Working with Docker for containerised development
               environments and collaborating with the team to ship high-quality features.
@@ -303,7 +304,7 @@
               </div>
             </div>
             <span class="timeline-date"><i class="fas fa-calendar-alt"></i>&nbsp;September 2022 – September 2025</span>
-            <p class="timeline-desc">
+            <p class="timeline-desc" data-i18n="exp-job2-desc">
               Led development of enterprise-grade web applications, architecting scalable
               front-end solutions using React.js and Node.js. Collaborated with cross-functional teams
               to deliver high-quality software that meets evolving business requirements.
@@ -329,7 +330,7 @@
               </div>
             </div>
             <span class="timeline-date"><i class="fas fa-calendar-alt"></i>&nbsp;September 2020 – September 2022</span>
-            <p class="timeline-desc">
+            <p class="timeline-desc" data-i18n="exp-job3-desc">
               Built responsive web interfaces and full-stack applications, collaborating with product
               teams to translate design requirements into performant, accessible web experiences
               using modern web technologies.
@@ -355,7 +356,7 @@
               </div>
             </div>
             <span class="timeline-date"><i class="fas fa-calendar-alt"></i>&nbsp;May 2021 – August 2022</span>
-            <p class="timeline-desc">
+            <p class="timeline-desc" data-i18n="exp-job4-desc">
               Developed front-end components and interactive user interfaces for client projects.
               Focused on delivering pixel-perfect implementations and seamless user experiences
               across all devices and screen sizes.
@@ -376,16 +377,16 @@
   <section id="education" class="education section">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
-        <span class="section-tag">My background</span>
-        <h2 class="section-title">Education</h2>
+        <span class="section-tag" data-i18n="edu-tag">My background</span>
+        <h2 class="section-title" data-i18n="edu-title">Education</h2>
       </div>
       <div class="education-card" data-aos="fade-up">
         <div class="edu-icon"><i class="fas fa-graduation-cap"></i></div>
         <div class="edu-info">
-          <h3>High School Diploma</h3>
+          <h3 data-i18n="edu-diploma">High School Diploma</h3>
           <span class="edu-school">I.I.S. "Zuccarelli" &nbsp;·&nbsp; Manciano, Italy</span>
           <div class="edu-grade">
-            <span class="grade-label">Final Grade</span>
+            <span class="grade-label" data-i18n="edu-grade-label">Final Grade</span>
             <span class="grade-value">98 / 100</span>
           </div>
         </div>
@@ -398,30 +399,30 @@
   <section id="contact" class="contact section">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
-        <span class="section-tag">Let's talk</span>
-        <h2 class="section-title">Get In <span class="gradient-text">Touch</span></h2>
-        <p class="section-subtitle">Have a project in mind? I'd love to hear about it. Send me a message and let's make it happen.</p>
+        <span class="section-tag" data-i18n="contact-tag">Let's talk</span>
+        <h2 class="section-title" data-i18n-html="contact-title">Get In <span class="gradient-text">Touch</span></h2>
+        <p class="section-subtitle" data-i18n="contact-subtitle">Have a project in mind? I'd love to hear about it. Send me a message and let's make it happen.</p>
       </div>
 
       <div class="contact-centered" data-aos="fade-up">
         <div class="contact-item">
           <div class="contact-icon"><i class="fas fa-envelope"></i></div>
           <div class="contact-text">
-            <span class="contact-label">Email</span>
+            <span class="contact-label" data-i18n="contact-email-label">Email</span>
             <a href="mailto:danilobcappelletti@gmail.com" class="contact-value">danilobcappelletti@gmail.com</a>
           </div>
         </div>
         <div class="contact-item">
           <div class="contact-icon"><i class="fas fa-phone"></i></div>
           <div class="contact-text">
-            <span class="contact-label">Phone</span>
+            <span class="contact-label" data-i18n="contact-phone-label">Phone</span>
             <a href="tel:+393458062933" class="contact-value">+39 345 806 2933</a>
           </div>
         </div>
         <div class="contact-item">
           <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
           <div class="contact-text">
-            <span class="contact-label">Location</span>
+            <span class="contact-label" data-i18n="contact-location-label">Location</span>
             <span class="contact-value">Pisa, Italy</span>
           </div>
         </div>
@@ -439,7 +440,7 @@
     <div class="container">
       <div class="footer-top">
         <a href="#hero" class="footer-logo">DC<span class="dot">.</span></a>
-        <p class="footer-tagline">Crafting digital experiences with passion &amp; precision.</p>
+        <p class="footer-tagline" data-i18n="footer-tagline">Crafting digital experiences with passion &amp; precision.</p>
         <div class="footer-socials">
           <a href="mailto:danilobcappelletti@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
           <a href="https://github.com/danilocappelletti" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
@@ -447,7 +448,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2026 Danilo Cappelletti &nbsp;·&nbsp; Built with <span class="heart">♥</span> and lots of JavaScript.</p>
+        <p data-i18n-html="footer-copyright">© 2026 Danilo Cappelletti &nbsp;·&nbsp; Built with <span class="heart">♥</span> and lots of JavaScript.</p>
       </div>
     </div>
   </footer>
