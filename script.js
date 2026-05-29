@@ -325,7 +325,7 @@ const i18n = {
     'contact-location-label':'Location',
 
     'footer-tagline':   'Crafting digital experiences with passion & precision.',
-    'footer-copyright': '© 2026 Danilo Cappelletti &nbsp;·&nbsp; Built with <span class="heart">♥</span> and lots of JavaScript.',
+    'footer-copyright': '© <span id="footer-year"></span> Danilo Cappelletti &nbsp;·&nbsp; Built with <span class="heart">♥</span> and lots of JavaScript.',
   },
   it: {
     'nav-about':      'Chi sono',
@@ -383,7 +383,7 @@ const i18n = {
     'contact-location-label':'Posizione',
 
     'footer-tagline':   'Creare esperienze digitali con passione e precisione.',
-    'footer-copyright': '© 2026 Danilo Cappelletti &nbsp;·&nbsp; Realizzato con <span class="heart">♥</span> e tanto JavaScript.',
+    'footer-copyright': '© <span id="footer-year"></span> Danilo Cappelletti &nbsp;·&nbsp; Realizzato con <span class="heart">♥</span> e tanto JavaScript.',
   },
 };
 
@@ -414,6 +414,10 @@ function setLanguage(lang) {
   // Update button label
   const btn = document.getElementById('lang-btn');
   if (btn) btn.textContent = lang === 'en' ? 'IT' : 'EN';
+
+  // Auto year
+  const yearEl = document.getElementById('footer-year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
 }
 
 document.getElementById('lang-btn')?.addEventListener('click', () => {
