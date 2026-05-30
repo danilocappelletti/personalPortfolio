@@ -222,6 +222,23 @@ ul  { list-style: none; }
 .nav-link:hover, .nav-link.active { color:var(--text); }
 .nav-link:hover::after, .nav-link.active::after { width:100%; }
 
+.pdf-btn {
+  display:flex; align-items:center; gap:6px;
+  font-family:var(--font-h); font-size:.78rem; font-weight:700;
+  letter-spacing:.05em;
+  padding:6px 14px; border-radius:100px;
+  background:rgba(239,68,68,.12);
+  border:1px solid rgba(239,68,68,.35);
+  color:#fca5a5;
+  cursor:pointer;
+  text-decoration:none;
+  transition: background var(--t), border-color var(--t),
+              color var(--t), transform var(--t);
+}
+.pdf-btn:hover {
+  background:#ef4444; border-color:#ef4444;
+  color:#fff; transform:translateY(-1px);
+}
 .lang-btn {
   font-family:var(--font-h); font-size:.78rem; font-weight:700;
   letter-spacing:.1em;

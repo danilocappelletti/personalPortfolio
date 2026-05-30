@@ -8,3 +8,5 @@
 !script.js
 !assets/
 !assets/**
+!portfolio.pdf
+!generate_pdf.py

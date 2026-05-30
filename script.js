@@ -426,3 +426,5 @@ document.getElementById('lang-btn')?.addEventListener('click', () => {
 
 // Apply saved/default language on load
 setLanguage(currentLang);
+
+
