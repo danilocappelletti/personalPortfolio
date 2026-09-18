@@ -100,6 +100,15 @@ document.querySelectorAll('a,button,.skill-card,.timeline-card,.education-card')
   });
 });
 
+/* Card spotlight: one delegated listener feeds --mx/--my to the hovered card */
+document.addEventListener('pointermove', e => {
+  const card = e.target.closest('.skill-card,.timeline-card,.project-card,.education-card,.languages-card');
+  if (!card) return;
+  const r = card.getBoundingClientRect();
+  card.style.setProperty('--mx', `${e.clientX - r.left}px`);
+  card.style.setProperty('--my', `${e.clientY - r.top}px`);
+}, { passive: true });
+
 /* ============================================================
    TYPING EFFECT
    ============================================================ */
@@ -309,15 +318,18 @@ const i18n = {
     'exp-tag':      "Where I've worked",
     'exp-title':    'Work <span class="gradient-text">Experience</span>',
     'exp-current':  'Current',
-    'exp-job1-desc': 'Building modern web applications with a focus on Vue.js, delivering scalable and maintainable front-end solutions. Working with Docker for containerised development environments and collaborating with the team to ship high-quality features.',
-    'exp-job2-desc': 'Led development of enterprise-grade web applications, architecting scalable front-end solutions using React.js and Node.js. Collaborated with cross-functional teams to deliver high-quality software that meets evolving business requirements.',
-    'exp-job3-desc': 'Built responsive web interfaces and full-stack applications, collaborating with product teams to translate design requirements into performant, accessible web experiences using modern web technologies.',
-    'exp-job4-desc': 'Developed front-end components and interactive user interfaces for client projects. Focused on delivering pixel-perfect implementations and seamless user experiences across all devices and screen sizes.',
+    'exp-job1-desc': 'Designed and built responsive web applications on a Vue.js architecture, writing clean, modular JavaScript for long-term scalability. Managed Docker-based development environments to keep local and production workflows aligned, and integrated REST APIs while collaborating in an agile team.',
+    'exp-job2-desc': 'Developed and architected enterprise-grade full-stack applications with React.js on the front end and Node.js on the server. Designed and integrated REST APIs for efficient client–server communication, coordinated technical work across cross-functional teams, and delivered secure, optimised code to strict enterprise standards.',
+    'exp-job3-desc': 'Managed, customised and maintained WordPress-based websites and ecosystems. Optimised performance and load times with hand-written HTML, CSS and Vanilla JavaScript, built responsive UIs with React.js, and partnered with product and design teams to turn requirements into accessible, high-performing web experiences.',
+    'exp-job4-desc': 'Built interactive, reusable front-end components with React.js and core JavaScript. Implemented pixel-perfect designs with advanced HTML5/CSS3 and ensured smooth, responsive experiences across mobile, tablet and desktop — working fully remote for a Dubai-based client.',
 
     'edu-tag':        'My background',
     'edu-title':      'Education',
-    'edu-diploma':    'High School Diploma',
+    'edu-diploma':    'Scientific High School Diploma',
     'edu-grade-label':'Final Grade',
+    'edu-focus-1':    'Mathematics & Physics — calculus, algebra, geometry, scientific method',
+    'edu-focus-2':    'Logic & Problem Solving — rigorous analytical reasoning and data modelling',
+    'edu-focus-3':    'Humanities & Languages — Italian, English, philosophy, critical thinking',
     'edu-lang-title':        'Languages',
     'edu-lang-subtitle':     'Spoken & Written',
     'edu-lang-it-name':      'Italian',
@@ -377,15 +389,18 @@ const i18n = {
     'exp-tag':      'Dove ho lavorato',
     'exp-title':    'Esperienza <span class="gradient-text">Lavorativa</span>',
     'exp-current':  'In corso',
-    'exp-job1-desc': 'Sviluppo di applicazioni web moderne con focus su Vue.js, consegnando soluzioni front-end scalabili e manutenibili. Utilizzo di Docker per ambienti di sviluppo containerizzati e collaborazione con il team per rilasciare funzionalità di alta qualità.',
-    'exp-job2-desc': 'Ho guidato lo sviluppo di applicazioni web enterprise, progettando soluzioni front-end scalabili con React.js e Node.js. Collaborazione con team interfunzionali per consegnare software di alta qualità in linea con i requisiti aziendali.',
-    'exp-job3-desc': 'Ho realizzato interfacce web responsive e applicazioni full-stack, collaborando con i team di prodotto per trasformare i requisiti di design in esperienze web performanti e accessibili con tecnologie moderne.',
-    'exp-job4-desc': 'Ho sviluppato componenti front-end e interfacce utente interattive per progetti clienti, con focus sulla consegna di implementazioni pixel-perfect e esperienze utente fluide su tutti i dispositivi e schermi.',
+    'exp-job1-desc': 'Progettazione e implementazione di applicazioni web reattive con architettura Vue.js, scrivendo codice JavaScript pulito e modulare per una scalabilità a lungo termine. Gestione di ambienti di sviluppo containerizzati con Docker per allineare i flussi locali e di produzione, integrazione di REST APIs e collaborazione proattiva in team con metodologie agili.',
+    'exp-job2-desc': 'Sviluppo e architettura di applicazioni web full-stack di livello enterprise con React.js per il front-end e Node.js per la logica server. Progettazione e integrazione di REST APIs per una comunicazione client–server efficiente, coordinamento tecnico in team interfunzionali e consegna di codice sicuro e ottimizzato secondo rigorosi standard aziendali.',
+    'exp-job3-desc': 'Amministrazione, personalizzazione e manutenzione di siti ed ecosistemi basati su WordPress. Ottimizzazione di performance e tempi di caricamento con HTML, CSS e JavaScript puro (Vanilla JS), realizzazione di interfacce responsive con React.js e collaborazione con i team di prodotto e design per trasformare i requisiti in esperienze web accessibili e ad alto rendimento.',
+    'exp-job4-desc': 'Creazione di componenti front-end interattivi e riutilizzabili con React.js e JavaScript core. Implementazione pixel-perfect dei requisiti di design con HTML5/CSS3 avanzato e garanzia di esperienze fluide e responsive su mobile, tablet e desktop — operando in modalità totalmente remota per un cliente di Dubai.',
 
     'edu-tag':        'La mia formazione',
     'edu-title':      'Formazione',
-    'edu-diploma':    'Diploma di Maturità',
+    'edu-diploma':    'Diploma Liceo Scientifico',
     'edu-grade-label':'Voto Finale',
+    'edu-focus-1':    'Matematica e Fisica — calcolo infinitesimale, algebra, geometria, metodo scientifico',
+    'edu-focus-2':    'Logica e Problem Solving — ragionamento analitico rigoroso e modellizzazione dei dati',
+    'edu-focus-3':    'Cultura Umanistica e Lingue — italiano, inglese, filosofia, pensiero critico',
     'edu-lang-title':        'Lingue',
     'edu-lang-subtitle':     'Parlate e Scritte',
     'edu-lang-it-name':      'Italiano',

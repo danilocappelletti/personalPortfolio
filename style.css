@@ -58,6 +58,26 @@ ul  { list-style: none; }
 
 ::selection { background: rgba(124,58,237,0.35); }
 
+/* Scroll progress bar — pure CSS scroll-driven animation, no JS */
+body::after {
+  content:''; position:fixed; top:0; left:0; z-index:1001;
+  width:100%; height:3px;
+  background:linear-gradient(90deg, var(--primary), var(--secondary));
+  transform-origin:left; transform:scaleX(0);
+  animation:growBar linear both;
+  animation-timeline:scroll();
+}
+
+/* Card spotlight — follows pointer via --mx/--my set in script.js */
+.skill-card::after, .timeline-card::after, .project-card::after,
+.education-card::after, .languages-card::after {
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(360px circle at var(--mx,50%) var(--my,50%), rgba(124,58,237,.16), transparent 60%);
+  opacity:0; transition:opacity var(--t);
+}
+.skill-card:hover::after, .timeline-card:hover::after, .project-card:hover::after,
+.education-card:hover::after, .languages-card:hover::after { opacity:1; }
+
 /* ============================================================
    SCROLLBAR
    ============================================================ */
@@ -335,6 +355,12 @@ ul  { list-style: none; }
   font-weight:700; line-height:1.0;
   margin-bottom:22px;
   opacity:0; animation:fadeSlideUp .9s ease .35s forwards;
+}
+.hero-name .gradient-text {
+  background:linear-gradient(120deg, var(--primary), var(--secondary), var(--primary-light), var(--primary));
+  background-size:300% 100%;
+  -webkit-background-clip:text; background-clip:text;
+  animation:shimmer 6s linear infinite;
 }
 
 .hero-title {
@@ -758,7 +784,19 @@ ul  { list-style: none; }
   margin-bottom:8px;
 }
 .edu-school { display:block; color:var(--text-muted); font-size:.94rem; margin-bottom:16px; }
-.edu-grade  { display:flex; align-items:center; gap:12px; }
+.edu-grade  { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.eqf-badge {
+  font-size:.7rem; font-weight:700; letter-spacing:.08em;
+  padding:3px 10px; border-radius:100px;
+  background:rgba(6,182,212,.15); color:var(--secondary);
+  border:1px solid rgba(6,182,212,.3);
+}
+.edu-focus {
+  margin-top:20px; display:flex; flex-direction:column; gap:10px;
+  font-size:.9rem; color:var(--text-muted); line-height:1.5;
+}
+.edu-focus li { display:flex; gap:10px; align-items:flex-start; }
+.edu-focus i  { color:var(--primary-light); margin-top:4px; width:16px; flex-shrink:0; }
 .grade-label {
   font-size:.78rem; text-transform:uppercase;
   letter-spacing:.1em; color:var(--text-dim);
@@ -1059,6 +1097,14 @@ a.contact-value:hover { color:var(--primary-light); }
   0%,100% { opacity:1; transform:scale(1); }
   50%     { opacity:.4; transform:scale(1.6); }
 }
+@keyframes growBar { to { transform:scaleX(1); } }
+@keyframes shimmer { to { background-position:300% 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+  html { scroll-behavior:auto; }
+  [data-aos] { opacity:1; transform:none; }
+}
 
 /* ============================================================
    SCROLL-REVEAL (custom AOS-like)
@@ -1125,6 +1171,7 @@ a.contact-value:hover { color:var(--primary-light); }
   .edu-grid       { grid-template-columns:1fr; }
   .education-card { flex-direction:column; text-align:center; padding:32px 24px; }
   .edu-grade      { justify-content:center; }
+  .edu-focus li   { text-align:left; }
   .lang-card-header { justify-content:center; }
   .languages-card { padding:32px 24px; }
 
