@@ -6,7 +6,6 @@ const ctx    = canvas.getContext('2d');
 let particles = [];
 let raf;
 
-// Size to the hero box (not window.innerWidth) so the canvas never exceeds the layout width
 function resizeCanvas() {
   const { width, height } = canvas.parentElement.getBoundingClientRect();
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -20,7 +19,6 @@ function resizeCanvas() {
 
 class Particle {
   constructor() { this.reset(true); }
-
   reset(initial = false) {
     this.x  = Math.random() * canvas.w;
     this.y  = initial ? Math.random() * canvas.h : (Math.random() < 0.5 ? 0 : canvas.h);
@@ -30,14 +28,12 @@ class Particle {
     this.op = Math.random() * 0.45 + 0.08;
     this.color = Math.random() > 0.55 ? '124,58,237' : '6,182,212';
   }
-
   update() {
     this.x += this.vx;
     this.y += this.vy;
     if (this.x < 0 || this.x > canvas.w)  this.vx *= -1;
     if (this.y < 0 || this.y > canvas.h)  this.vy *= -1;
   }
-
   draw() {
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
@@ -77,71 +73,51 @@ function animateParticles() {
   raf = requestAnimationFrame(animateParticles);
 }
 
-/* ============================================================
-   CUSTOM CURSOR — pointer devices only
-   ============================================================ */
-const cursorEl  = document.getElementById('cursor');
-const followerEl = document.getElementById('cursor-follower');
-const hasFinePointer = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
-let mx = 0, my = 0, fx = 0, fy = 0;
-
-if (hasFinePointer) {
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursorEl.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
-  });
-
-  (function animateCursor() {
-    fx += (mx - fx) * 0.11;
-    fy += (my - fy) * 0.11;
-    followerEl.style.transform = `translate(${fx - 19}px, ${fy - 19}px)`;
-    requestAnimationFrame(animateCursor);
-  })();
-
-  document.querySelectorAll('a,button,.skill-card,.timeline-card,.education-card').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      cursorEl.style.opacity  = '0';
-      followerEl.style.opacity = '0';
-    });
-    el.addEventListener('mouseleave', () => {
-      cursorEl.style.opacity  = '1';
-      followerEl.style.opacity = '1';
-    });
-  });
+function startParticles() {
+  resizeCanvas();
+  initParticles();
+  cancelAnimationFrame(raf);
+  animateParticles();
 }
 
-/* Card spotlight: one delegated listener feeds --mx/--my to the hovered card */
-document.addEventListener('pointermove', e => {
-  const card = e.target.closest('.skill-card,.timeline-card,.project-card,.education-card,.languages-card');
-  if (!card) return;
-  const r = card.getBoundingClientRect();
-  card.style.setProperty('--mx', `${e.clientX - r.left}px`);
-  card.style.setProperty('--my', `${e.clientY - r.top}px`);
+startParticles();
+let resizeTimer, lastW = window.innerWidth;
+window.addEventListener('resize', () => {
+  if (window.innerWidth === lastW) return;
+  lastW = window.innerWidth;
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(startParticles, 150);
 }, { passive: true });
 
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) cancelAnimationFrame(raf);
+  else animateParticles();
+});
+
 /* ============================================================
-   TYPING EFFECT
+   CUSTOM CURSOR
    ============================================================ */
-const typedEl = document.getElementById('typed-text');
-const phrasesByLang = {
-  en: ['Software Developer', 'Frontend Engineer', 'AI Enthusiast'],
-  it: ['Software Developer', 'Ingegnere Frontend', 'Esperto di AI'],
-};
-let phrases = [...phrasesByLang.en];
-let pIdx = 0, cIdx = 0, deleting = false;
+const cursorEl = document.getElementById('cursor');
+const followerEl = document.getElementById('cursor-follower');
+const finePointer = window.matchMedia('(hover:hover) and (pointer:fine)');
 
-function typeStep() {
-  const phrase = phrases[pIdx];
-  if (deleting) { cIdx--; } else { cIdx++; }
-  typedEl.textContent = phrase.slice(0, cIdx);
-
-  let delay = deleting ? 55 : 95;
-  if (!deleting && cIdx === phrase.length) { delay = 2400; deleting = true; }
-  else if (deleting && cIdx === 0)         { deleting = false; pIdx = (pIdx + 1) % phrases.length; delay = 380; }
-
-  setTimeout(typeStep, delay);
+function hideCursor() {
+  document.documentElement.classList.remove('custom-cursor');
 }
-setTimeout(typeStep, 1800); // start after hero animation
+
+document.addEventListener('pointermove', event => {
+  if (!finePointer.matches || event.pointerType === 'touch' || event.target.closest('a, button, input, textarea, select')) {
+    hideCursor();
+    return;
+  }
+  cursorEl.style.transform = `translate(${event.clientX - 6}px, ${event.clientY - 6}px)`;
+  followerEl.style.transform = `translate(${event.clientX - 19}px, ${event.clientY - 19}px)`;
+  document.documentElement.classList.add('custom-cursor');
+}, { passive:true });
+
+document.documentElement.addEventListener('pointerleave', hideCursor);
+window.addEventListener('blur', hideCursor);
+finePointer.addEventListener('change', hideCursor);
 
 /* ============================================================
    NAVBAR – scroll behaviour & active link
@@ -188,23 +164,6 @@ const revealObserver = new IntersectionObserver(entries => {
 }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
 
 document.querySelectorAll('[data-aos]').forEach(el => revealObserver.observe(el));
-
-/* ============================================================
-   SKILL BAR ANIMATION
-   ============================================================ */
-const skillsSection = document.getElementById('skills');
-const skillObserver = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.querySelectorAll('.skill-fill').forEach(fill => {
-        setTimeout(() => { fill.style.width = fill.dataset.width + '%'; }, 180);
-      });
-      skillObserver.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.25 });
-
-if (skillsSection) skillObserver.observe(skillsSection);
 
 /* ============================================================
    COUNTER ANIMATION (about stats)
@@ -276,34 +235,6 @@ document.getElementById('contact-form')?.addEventListener('submit', function(e) 
 });
 
 /* ============================================================
-   INIT
-   ============================================================ */
-function startParticles() {
-  resizeCanvas();
-  initParticles();
-  cancelAnimationFrame(raf);
-  animateParticles();
-}
-
-// Run immediately (not on `load`) so the first paint already has a correctly-sized canvas
-startParticles();
-
-// Debounced; ignores the height-only "resizes" fired by the mobile URL bar
-let resizeTimer, lastW = window.innerWidth;
-window.addEventListener('resize', () => {
-  if (window.innerWidth === lastW) return;
-  lastW = window.innerWidth;
-  clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(startParticles, 150);
-}, { passive: true });
-
-// Pause the rAF loop when the tab is hidden
-document.addEventListener('visibilitychange', () => {
-  if (document.hidden) cancelAnimationFrame(raf);
-  else animateParticles();
-});
-
-/* ============================================================
    I18N – MULTI-LANGUAGE (EN / IT)
    ============================================================ */
 const i18n = {
@@ -315,35 +246,64 @@ const i18n = {
     'nav-education':  'Education',
     'nav-contact':    'Contact',
 
-    'hero-greeting':    "Hello, I'm",
-    'hero-title-static': "I'm a\u00a0",
-    'hero-description': 'Dynamic Software Developer with 6+ years of experience crafting innovative web applications that enhance user engagement and functionality.',
-    'hero-cta-explore': 'Explore My Work',
+    'skip-content': 'Skip to content',
+    'hero-greeting':    'Software Developer / Pisa, Italy',
+    'hero-context': '6+ years / Enterprise web & research tools',
+    'hero-description': 'I build React and Vue applications, from enterprise workflows to tools for papyrus reconstruction.',
+    'hero-cta-explore': 'View Selected Work',
     'hero-cta-contact': 'Get In Touch',
     'hero-scroll':      'Scroll',
 
     'about-tag':           'Get to know me',
     'about-title':         'About <span class="gradient-text">Me</span>',
     'about-heading':       'Software Developer based in <span class="gradient-text">Pisa, Italy</span>',
-    'about-bio-1':         'Dynamic Software Developer with 6 years of experience, proficient in crafting innovative web applications that enhance user engagement and functionality. Expertise spans across HTML, CSS, and Javascript, complemented by a strong foundation in React.js and Node.js.',
-    'about-bio-2':         "Adept at collaborating with cross-functional teams to deliver high-quality software solutions that meet evolving business needs. Passionate about leveraging technology to drive efficiency and improve user experiences. Committed to continuous learning and adapting to emerging technologies.",
+    'about-bio-1':         'I am a software developer based in Pisa with over six years of experience. My work spans React and Node.js applications at Apparound, Vue.js development at Stetel, and specialist Python tools.',
+    'about-bio-2':         'I have worked with product and design teams on enterprise software and taken sole ownership of the TIFF editor. I enjoy turning a specific, difficult workflow into software people can use.',
     'about-stat-years':     'Years Exp.',
     'about-stat-companies': 'Companies',
     'about-stat-tech':      'Technologies',
     'about-badge-text':     'Years of<br />Experience',
 
-    'skills-tag':   'What I know',
-    'skills-title': 'My <span class="gradient-text">Skills</span>',
+    'skills-tag':   'Skills, applied',
+    'skills-title': 'Engineering in <span class="gradient-text">Practice</span>',
+    'skills-ui-title': 'Frontend systems',
+    'skills-ui-desc': 'Reusable components, responsive layouts and REST API integration for enterprise web applications.',
+    'skills-ui-proof': 'Apparound & Stetel',
+    'skills-fullstack-title': 'Full-stack workflows',
+    'skills-fullstack-desc': 'Connecting booking interfaces to data models, credit systems and payments in a personal full-stack project.',
+    'skills-fullstack-proof': 'Explore GymBuddy',
+    'skills-tools-title': 'Specialist tools',
+    'skills-tools-desc': 'Large-image arrangement and precision measurement for papyrus reconstruction; charts and sensor data interfaces for IoT monitoring.',
+    'skills-tools-proof': 'Read the TIFF case study',
 
-    'projects-tag':   'Featured Work',
-    'projects-title': 'Recent <span class="gradient-text">Projects</span>',
+    'projects-tag':   'Selected work',
+    'projects-title': 'Different problems.<br /><span class="gradient-text">Considered solutions.</span>',
     'projects-gymbuddy-subtitle': 'Personal Next.js Test',
     'projects-gymbuddy-desc': 'Personal project testing Next.js + Prisma workflows. Booking platform with credit systems, instructor management, and advanced reporting for activities and classes.',
     'projects-tiff-subtitle': 'Papyri Reconstruction Tool',
-    'projects-tiff-desc': 'Reconstructs burned and mistreated papyri using multi-image stitching and high-precision measurement tools. Won EU Seal of Excellence.',
+    'projects-tiff-desc': 'A specialist tool for arranging very large scans and reconstructing damaged papyri.',
     'projects-sensor-subtitle': 'Real-Time Data Dashboard',
     'projects-sensor-desc': 'Vue 3 + TypeScript dashboard for monitoring IoT sensor data with live charts, historical analytics, and responsive data tables.',
-    'projects-award': 'Seal of Excellence',
+    'projects-award': 'Project: Seal of Excellence',
+    'tiff-kicker': '01 / Research tooling / Sole developer',
+    'tiff-caption': 'Browser interface demo with placeholder images, not the production Python application.',
+    'case-problem': 'The problem',
+    'case-role': 'My contribution',
+    'case-decision': 'Technical trade-off',
+    'case-result': 'The result',
+    'tiff-problem': 'The research workflow needed suitable software to work with very large image files and automatically arrange them for papyrus reconstruction.',
+    'tiff-role': 'I was the sole developer, building the editor and its image arrangement, stitching and precision measurement tools in Python.',
+    'tiff-decision': 'Large source files make interactive navigation costly. The documented design uses reduced-resolution image previews for navigation, while keeping original-resolution data for export: responsiveness without sacrificing output detail.',
+    'tiff-result': 'The project received the EU Seal of Excellence, recognising its quality. It did not receive funding because funds were unavailable.',
+    'tiff-demo-link': 'Open interface demo',
+    'sensor-kicker': '02 / Data interfaces',
+    'sensor-caption': 'Browser demo / simulated sensor data',
+    'sensor-demo-link': 'Explore the demo',
+    'gym-kicker': '03 / Personal full-stack project',
+    'gym-bookings': 'Activity & class bookings',
+    'gym-payments': 'Credits & payment workflows',
+    'gym-management': 'Instructor management & reporting',
+    'gym-source': 'Explore the source',
 
     'exp-tag':      "Where I've worked",
     'exp-title':    'Work <span class="gradient-text">Experience</span>',
@@ -387,35 +347,64 @@ const i18n = {
     'nav-education':  'Formazione',
     'nav-contact':    'Contatti',
 
-    'hero-greeting':    'Ciao, sono',
-    'hero-title-static': 'Sono un\u00a0',
-    'hero-description': 'Sviluppatore Software con oltre 6 anni di esperienza nella creazione di applicazioni web innovative che migliorano il coinvolgimento degli utenti e le loro funzionalità.',
-    'hero-cta-explore': 'Scopri il mio lavoro',
+    'skip-content': 'Vai al contenuto',
+    'hero-greeting':    'Software Developer / Pisa, Italia',
+    'hero-context': '6+ anni / Applicazioni enterprise e strumenti di ricerca',
+    'hero-description': 'Sviluppo applicazioni React e Vue, dai flussi aziendali agli strumenti per la ricostruzione dei papiri.',
+    'hero-cta-explore': 'Esplora i progetti',
     'hero-cta-contact': 'Contattami',
     'hero-scroll':      'Scorri',
 
     'about-tag':           'Conoscimi',
     'about-title':         'Chi <span class="gradient-text">Sono</span>',
     'about-heading':       'Software Developer a <span class="gradient-text">Pisa, Italia</span>',
-    'about-bio-1':         'Sviluppatore Software dinamico con 6 anni di esperienza, specializzato nella creazione di applicazioni web innovative che migliorano il coinvolgimento degli utenti. Le competenze spaziano da HTML, CSS e Javascript, con solide basi in React.js e Node.js.',
-    'about-bio-2':         "Abile nel collaborare con team multifunzionali per consegnare soluzioni software di alta qualità che soddisfano le esigenze aziendali. Appassionato di tecnologia e miglioramento dell'esperienza utente. Impegnato nell'apprendimento continuo e nell'adattamento alle nuove tecnologie.",
+    'about-bio-1':         'Sono uno sviluppatore software a Pisa con oltre sei anni di esperienza. Ho lavorato su applicazioni React e Node.js in Apparound, sviluppo Vue.js in Stetel e strumenti specialistici in Python.',
+    'about-bio-2':         'Ho collaborato con team di prodotto e design su software enterprise e sviluppato da solo l\'editor TIFF. Mi piace trasformare un flusso di lavoro specifico e complesso in software utilizzabile.',
     'about-stat-years':     'Anni Esp.',
     'about-stat-companies': 'Aziende',
     'about-stat-tech':      'Tecnologie',
     'about-badge-text':     'Anni di<br />Esperienza',
 
-    'skills-tag':   'Cosa so fare',
-    'skills-title': 'Le mie <span class="gradient-text">Competenze</span>',
+    'skills-tag':   'Competenze applicate',
+    'skills-title': 'Ingegneria in <span class="gradient-text">Pratica</span>',
+    'skills-ui-title': 'Sistemi frontend',
+    'skills-ui-desc': 'Componenti riutilizzabili, layout responsive e integrazione di API REST per applicazioni web enterprise.',
+    'skills-ui-proof': 'Apparound & Stetel',
+    'skills-fullstack-title': 'Flussi full-stack',
+    'skills-fullstack-desc': 'Interfacce di prenotazione collegate a modelli dati, sistemi di crediti e pagamenti in un progetto personale full-stack.',
+    'skills-fullstack-proof': 'Esplora GymBuddy',
+    'skills-tools-title': 'Strumenti specialistici',
+    'skills-tools-desc': 'Disposizione di immagini di grandi dimensioni e misurazioni precise per ricostruire papiri; grafici e interfacce dati per il monitoraggio di sensori IoT.',
+    'skills-tools-proof': 'Leggi il caso TIFF',
 
-    'projects-tag':   'Lavori in Evidenza',
-    'projects-title': 'Progetti <span class="gradient-text">Recenti</span>',
+    'projects-tag':   'Progetti selezionati',
+    'projects-title': 'Problemi diversi.<br /><span class="gradient-text">Soluzioni ragionate.</span>',
     'projects-gymbuddy-subtitle': 'Test Personale Next.js',
     'projects-gymbuddy-desc': 'Progetto personale per testare flussi di lavoro Next.js + Prisma. Piattaforma di prenotazione con sistemi di credito, gestione istruttori e reportistica avanzata per attività e corsi.',
     'projects-tiff-subtitle': 'Strumento di Ricostruzione Papiri',
-    'projects-tiff-desc': 'Ricostruisce papiri bruciati e maltrattati utilizzando cuciture multi-immagine e strumenti di misurazione ad alta precisione. Ha vinto il Sigillo di Eccellenza UE.',
+    'projects-tiff-desc': 'Uno strumento specialistico per disporre scansioni di grandi dimensioni e ricostruire papiri danneggiati.',
     'projects-sensor-subtitle': 'Dashboard Dati in Tempo Reale',
     'projects-sensor-desc': 'Dashboard Vue 3 + TypeScript per il monitoraggio dei dati dei sensori IoT con grafici live, analitiche storiche e tabelle dati responsive.',
-    'projects-award': 'Sigillo di Eccellenza',
+    'projects-award': 'Progetto: Sigillo di Eccellenza',
+    'tiff-kicker': '01 / Strumenti di ricerca / Unico sviluppatore',
+    'tiff-caption': 'Demo web con immagini segnaposto, non l\'applicazione Python di produzione.',
+    'case-problem': 'Il problema',
+    'case-role': 'Il mio contributo',
+    'case-decision': 'Compromesso tecnico',
+    'case-result': 'Il risultato',
+    'tiff-problem': 'Il lavoro di ricerca richiedeva un software adatto a gestire file immagine di grandi dimensioni e disporli automaticamente per la ricostruzione dei papiri.',
+    'tiff-role': 'Sono stato l\'unico sviluppatore: ho realizzato in Python l\'editor e gli strumenti di disposizione, unione delle immagini e misurazione di precisione.',
+    'tiff-decision': 'Navigare file originali molto grandi ha un costo elevato. Il progetto documentato usa anteprime a risoluzione ridotta per la navigazione e conserva i dati originali per l\'esportazione: reattivit\u00e0 senza perdere dettaglio nel risultato.',
+    'tiff-result': 'Il progetto ha ricevuto il Sigillo di Eccellenza dell\'UE, che ne riconosce la qualit\u00e0. Non ha ottenuto il finanziamento per mancanza di fondi.',
+    'tiff-demo-link': 'Apri la demo dell\'interfaccia',
+    'sensor-kicker': '02 / Interfacce dati',
+    'sensor-caption': 'Demo web / dati dei sensori simulati',
+    'sensor-demo-link': 'Esplora la demo',
+    'gym-kicker': '03 / Progetto personale full-stack',
+    'gym-bookings': 'Prenotazioni di attivit\u00e0 e corsi',
+    'gym-payments': 'Crediti e flussi di pagamento',
+    'gym-management': 'Gestione istruttori e reportistica',
+    'gym-source': 'Esplora il codice',
 
     'exp-tag':      'Dove ho lavorato',
     'exp-title':    'Esperienza <span class="gradient-text">Lavorativa</span>',
@@ -471,11 +460,6 @@ function setLanguage(lang) {
     const val = i18n[lang][el.dataset.i18nHtml];
     if (val !== undefined) el.innerHTML = val;
   });
-
-  // Update typed phrases and restart animation
-  phrases = [...phrasesByLang[lang]];
-  pIdx = 0; cIdx = 0; deleting = false;
-  if (typedEl) typedEl.textContent = '';
 
   // Update button label
   const btn = document.getElementById('lang-btn');

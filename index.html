@@ -32,7 +32,7 @@
   <meta name="twitter:image:alt"   content="Danilo Cappelletti – Software Developer" />
 
   <!-- Mobile browser chrome color -->
-  <meta name="theme-color" content="#0f0a1e" />
+  <meta name="theme-color" content="#121416" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -47,20 +47,19 @@
 </head>
 <body>
 
-  <a href="#about" class="skip-link">Skip to content</a>
+  <a href="#projects" class="skip-link" data-i18n="skip-content">Skip to content</a>
 
-  <!-- Custom Cursor -->
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-follower" id="cursor-follower"></div>
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <div class="cursor-follower" id="cursor-follower" aria-hidden="true"></div>
 
   <!-- ─── NAVBAR ─────────────────────────────────────── -->
   <nav id="navbar" class="navbar" aria-label="Primary">
     <div class="nav-container">
       <a href="#hero" class="nav-logo">DC<span class="dot">.</span></a>
       <ul class="nav-menu" id="nav-menu">
+        <li><a href="#projects"   class="nav-link" data-i18n="nav-projects">Projects</a></li>
         <li><a href="#about"      class="nav-link" data-i18n="nav-about">About</a></li>
         <li><a href="#skills"     class="nav-link" data-i18n="nav-skills">Skills</a></li>
-        <li><a href="#projects"   class="nav-link" data-i18n="nav-projects">Projects</a></li>
         <li><a href="#experience" class="nav-link" data-i18n="nav-experience">Experience</a></li>
         <li><a href="#education"  class="nav-link" data-i18n="nav-education">Education</a></li>
         <li><a href="#contact"    class="nav-link" data-i18n="nav-contact">Contact</a></li>
@@ -85,22 +84,16 @@
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
     <div class="orb orb-3"></div>
-
     <div class="hero-content">
-      <p class="hero-greeting" data-i18n="hero-greeting">Hello, I'm</p>
+      <p class="hero-greeting" data-i18n="hero-greeting">Software Developer / Pisa, Italy</p>
       <h1 class="hero-name">Danilo<br /><span class="gradient-text">Cappelletti</span></h1>
-      <div class="hero-title">
-        <span class="title-static" data-i18n="hero-title-static">I'm a&nbsp;</span>
-        <span class="typed-text" id="typed-text"></span>
-        <span class="cursor-blink">|</span>
-      </div>
+      <p class="hero-title" data-i18n="hero-context">6+ years / Enterprise web &amp; research tools</p>
       <p class="hero-description" data-i18n="hero-description">
-        Dynamic Software Developer with 6+ years of experience crafting innovative web
-        applications that enhance user engagement and functionality.
+        I build React and Vue applications, from enterprise workflows to tools for papyrus reconstruction.
       </p>
       <div class="hero-cta">
-        <a href="#about" class="btn btn-primary">
-          <span data-i18n="hero-cta-explore">Explore My Work</span>
+        <a href="#projects" class="btn btn-primary">
+          <span data-i18n="hero-cta-explore">View Selected Work</span>
           <i class="fas fa-arrow-down"></i>
         </a>
         <a href="#contact" class="btn btn-glass">
@@ -121,9 +114,74 @@
       </div>
     </div>
 
-    <div class="scroll-indicator">
-      <div class="mouse"><div class="wheel"></div></div>
-      <p data-i18n="hero-scroll">Scroll</p>
+  </section>
+
+  <section id="projects" class="projects section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="projects-tag">Selected work</span>
+        <h2 class="section-title" data-i18n-html="projects-title">Different problems.<br /><span class="gradient-text">Considered solutions.</span></h2>
+      </div>
+
+      <article id="project-tiff" class="featured-project" aria-labelledby="tiff-title">
+        <div class="featured-heading">
+          <div>
+            <p class="project-kicker" data-i18n="tiff-kicker">01 / Research tooling / Sole developer</p>
+            <h3 id="tiff-title">TIFF Image Editor</h3>
+            <p class="featured-intro" data-i18n="projects-tiff-desc">A specialist tool for arranging very large scans and reconstructing damaged papyri.</p>
+          </div>
+          <a href="https://research-and-innovation.ec.europa.eu/funding/funding-opportunities/seal-excellence_en" target="_blank" rel="noopener noreferrer" class="award-badge">
+            <i class="fas fa-award" aria-hidden="true"></i><span data-i18n="projects-award">Project: Seal of Excellence</span><i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+          </a>
+        </div>
+        <figure class="project-preview featured-preview">
+          <a href="tiff-demo.html" aria-label="Open TIFF interface demo">
+            <img src="assets/tiff-demo-preview.jpg" alt="TIFF interface demo with three image placeholders arranged horizontally, a toolbar and a sections panel" width="1010" height="631" loading="lazy" />
+          </a>
+          <figcaption data-i18n="tiff-caption">Browser interface demo with placeholder images, not the production Python application.</figcaption>
+        </figure>
+        <dl class="case-study">
+          <div><dt><span aria-hidden="true">01</span> <span data-i18n="case-problem">The problem</span></dt><dd data-i18n="tiff-problem">The research workflow needed suitable software to work with very large image files and automatically arrange them for papyrus reconstruction.</dd></div>
+          <div><dt><span aria-hidden="true">02</span> <span data-i18n="case-role">My contribution</span></dt><dd data-i18n="tiff-role">I was the sole developer, building the editor and its image arrangement, stitching and precision measurement tools in Python.</dd></div>
+          <div><dt><span aria-hidden="true">03</span> <span data-i18n="case-decision">Technical trade-off</span></dt><dd data-i18n="tiff-decision">Large source files make interactive navigation costly. The documented design uses reduced-resolution image previews for navigation, while keeping original-resolution data for export: responsiveness without sacrificing output detail.</dd></div>
+          <div><dt><span aria-hidden="true">04</span> <span data-i18n="case-result">The result</span></dt><dd data-i18n="tiff-result">The project received the EU Seal of Excellence, recognising its quality. It did not receive funding because funds were unavailable.</dd></div>
+        </dl>
+        <div class="project-bottom">
+          <ul class="capability-stack" aria-label="Technologies"><li>Python</li><li>Pillow</li><li>Tkinter</li><li>PyInstaller</li></ul>
+          <a class="evidence-link" href="tiff-demo.html"><span data-i18n="tiff-demo-link">Open interface demo</span><i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+        </div>
+      </article>
+
+      <div class="projects-grid">
+        <article id="project-sensor" class="project-card">
+          <figure class="project-preview">
+            <a href="sensor-demo.html" aria-label="Open Sensor Monitor demo"><img src="assets/sensor-demo-preview.jpg" alt="Sensor Monitor demo showing sensor readings, a trend chart and a distribution chart" width="1010" height="631" loading="lazy" /></a>
+            <figcaption data-i18n="sensor-caption">Browser demo / simulated sensor data</figcaption>
+          </figure>
+          <p class="project-kicker" data-i18n="sensor-kicker">02 / Data interfaces</p>
+          <h3 class="project-name">Sensor Monitor</h3>
+          <p class="project-description" data-i18n="projects-sensor-desc">A Vue 3 and TypeScript dashboard for IoT monitoring, with live charts, historical analytics and responsive data tables.</p>
+          <ul class="capability-stack" aria-label="Technologies"><li>Vue 3</li><li>TypeScript</li><li>Chart.js</li><li>Tailwind</li></ul>
+          <div class="project-bottom">
+            <a class="evidence-link" href="sensor-demo.html"><span data-i18n="sensor-demo-link">Explore the demo</span><i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+            <a class="project-link" href="https://github.com/danilocappelletti/moveSolutions_challenge" target="_blank" rel="noopener noreferrer" aria-label="Sensor Monitor source on GitHub" title="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a>
+          </div>
+        </article>
+        <article id="project-gymbuddy" class="project-card">
+          <p class="project-kicker" data-i18n="gym-kicker">03 / Personal full-stack project</p>
+          <h3 class="project-name">GymBuddy</h3>
+          <p class="project-description" data-i18n="projects-gymbuddy-desc">A booking platform built to explore Next.js and Prisma: activity bookings, credit systems, instructor management and reporting.</p>
+          <ul class="project-scope">
+            <li><i class="fas fa-calendar-check" aria-hidden="true"></i><span data-i18n="gym-bookings">Activity &amp; class bookings</span></li>
+            <li><i class="fas fa-credit-card" aria-hidden="true"></i><span data-i18n="gym-payments">Credits &amp; payment workflows</span></li>
+            <li><i class="fas fa-chart-column" aria-hidden="true"></i><span data-i18n="gym-management">Instructor management &amp; reporting</span></li>
+          </ul>
+          <ul class="capability-stack" aria-label="Technologies"><li>Next.js</li><li>TypeScript</li><li>Prisma</li><li>PostgreSQL</li><li>Stripe</li><li>Tailwind</li></ul>
+          <div class="project-bottom">
+            <a class="evidence-link" href="https://github.com/danilocappelletti/GymBuddy" target="_blank" rel="noopener noreferrer"><i class="fab fa-github" aria-hidden="true"></i><span data-i18n="gym-source">Explore the source</span><i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -138,7 +196,7 @@
         <div class="about-image-col" data-aos="fade-right">
           <div class="about-image-wrapper">
             <div class="about-image-bg"></div>
-            <img src="assets/photo.jpg" alt="Danilo Cappelletti" class="about-photo" />
+            <img src="assets/photo.jpg" alt="Danilo Cappelletti" class="about-photo" width="829" height="1172" loading="lazy" />
             <div class="about-badge">
               <span class="badge-number">6+</span>
               <span class="badge-text" data-i18n-html="about-badge-text">Years of<br />Experience</span>
@@ -149,15 +207,12 @@
         <div class="about-content" data-aos="fade-left">
           <h3 data-i18n-html="about-heading">Software Developer based in <span class="gradient-text">Pisa, Italy</span></h3>
           <p class="about-bio" data-i18n="about-bio-1">
-            Dynamic Software Developer with 6 years of experience, proficient in crafting innovative
-            web applications that enhance user engagement and functionality. Expertise spans across
-            HTML, CSS, and Javascript, complemented by a strong foundation in React.js and Node.js.
+            I am a software developer based in Pisa with over six years of experience. My work spans
+            React and Node.js applications at Apparound, Vue.js development at Stetel, and specialist Python tools.
           </p>
           <p class="about-bio" data-i18n="about-bio-2">
-            Adept at collaborating with cross-functional teams to deliver high-quality software
-            solutions that meet evolving business needs. Passionate about leveraging technology to
-            drive efficiency and improve user experiences. Committed to continuous learning and
-            adapting to emerging technologies.
+            I have worked with product and design teams on enterprise software and taken sole ownership
+            of the TIFF editor. I enjoy turning a specific, difficult workflow into software people can use.
           </p>
           <div class="about-stats">
             <div class="stat">
@@ -196,93 +251,34 @@
   <section id="skills" class="skills section">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
-        <span class="section-tag" data-i18n="skills-tag">What I know</span>
-        <h2 class="section-title" data-i18n-html="skills-title">My <span class="gradient-text">Skills</span></h2>
+        <span class="section-tag" data-i18n="skills-tag">Skills, applied</span>
+        <h2 class="section-title" data-i18n-html="skills-title">Engineering in <span class="gradient-text">Practice</span></h2>
       </div>
-      <div class="skills-grid">
-
-        <div class="skill-card" data-aos="fade-up" data-aos-delay="0">
-          <div class="skill-icon html-icon"><i class="fab fa-html5"></i></div>
-          <div class="skill-info">
-            <div class="skill-top"><span class="skill-name">HTML5</span><span class="skill-pct">95%</span></div>
-            <div class="skill-bar"><div class="skill-fill" data-width="95"></div></div>
+      <div class="capability-list">
+        <article class="capability">
+          <div class="capability-heading"><span class="capability-number" aria-hidden="true">01</span><h3 data-i18n="skills-ui-title">Frontend systems</h3></div>
+          <div>
+            <p data-i18n="skills-ui-desc">Reusable components, responsive layouts and REST API integration for enterprise web applications.</p>
+            <ul class="capability-stack" aria-label="Technologies"><li>React</li><li>Vue</li><li>JavaScript</li><li>HTML / CSS / SCSS</li><li>Docker</li></ul>
           </div>
-        </div>
-
-        <div class="skill-card" data-aos="fade-up" data-aos-delay="60">
-          <div class="skill-icon css-icon"><i class="fab fa-css3-alt"></i></div>
-          <div class="skill-info">
-            <div class="skill-top"><span class="skill-name">CSS3</span><span class="skill-pct">90%</span></div>
-            <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
+          <a class="evidence-link" href="#experience"><span data-i18n="skills-ui-proof">Apparound &amp; Stetel</span><i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+        </article>
+        <article class="capability">
+          <div class="capability-heading"><span class="capability-number" aria-hidden="true">02</span><h3 data-i18n="skills-fullstack-title">Full-stack workflows</h3></div>
+          <div>
+            <p data-i18n="skills-fullstack-desc">Connecting booking interfaces to data models, credit systems and payments in a personal full-stack project.</p>
+            <ul class="capability-stack" aria-label="Technologies"><li>Next.js</li><li>TypeScript</li><li>Node.js</li><li>Prisma</li><li>PostgreSQL</li><li>Stripe</li></ul>
           </div>
-        </div>
-
-        <div class="skill-card" data-aos="fade-up" data-aos-delay="120">
-          <div class="skill-icon sass-icon"><i class="fab fa-sass"></i></div>
-          <div class="skill-info">
-            <div class="skill-top"><span class="skill-name">SCSS</span><span class="skill-pct">85%</span></div>
-            <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
+          <a class="evidence-link" href="#project-gymbuddy"><span data-i18n="skills-fullstack-proof">Explore GymBuddy</span><i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+        </article>
+        <article class="capability">
+          <div class="capability-heading"><span class="capability-number" aria-hidden="true">03</span><h3 data-i18n="skills-tools-title">Specialist tools</h3></div>
+          <div>
+            <p data-i18n="skills-tools-desc">Large-image arrangement and precision measurement for papyrus reconstruction; charts and sensor data interfaces for IoT monitoring.</p>
+            <ul class="capability-stack" aria-label="Technologies"><li>Python</li><li>Pillow</li><li>Tkinter</li><li>Vue 3</li><li>Chart.js</li></ul>
           </div>
-        </div>
-
-        <div class="skill-card" data-aos="fade-up" data-aos-delay="180">
-          <div class="skill-icon js-icon"><i class="fab fa-js"></i></div>
-          <div class="skill-info">
-            <div class="skill-top"><span class="skill-name">JavaScript</span><span class="skill-pct">90%</span></div>
-            <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
-          </div>
-        </div>
-
-        <div class="skill-card" data-aos="fade-up" data-aos-delay="240">
-          <div class="skill-icon react-icon"><i class="fab fa-react"></i></div>
-          <div class="skill-info">
-            <div class="skill-top"><span class="skill-name">React.js</span><span class="skill-pct">85%</span></div>
-            <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
-          </div>
-        </div>
-
-        <div class="skill-card" data-aos="fade-up" data-aos-delay="300">
-          <div class="skill-icon node-icon"><i class="fab fa-node-js"></i></div>
-          <div class="skill-info">
-            <div class="skill-top"><span class="skill-name">Node.js</span><span class="skill-pct">75%</span></div>
-            <div class="skill-bar"><div class="skill-fill" data-width="75"></div></div>
-          </div>
-        </div>
-
-        <div class="skill-card" data-aos="fade-up" data-aos-delay="360">
-          <div class="skill-icon py-icon"><i class="fab fa-python"></i></div>
-          <div class="skill-info">
-            <div class="skill-top"><span class="skill-name">Python</span><span class="skill-pct">70%</span></div>
-            <div class="skill-bar"><div class="skill-fill" data-width="70"></div></div>
-          </div>
-        </div>
-
-        <div class="skill-card" data-aos="fade-up" data-aos-delay="420">
-          <div class="skill-icon next-icon">
-            <img src="https://images.icon-icons.com/2389/PNG/512/next_js_logo_icon_145038.png" alt="Next.js" class="skill-img-icon" />
-          </div>
-          <div class="skill-info">
-            <div class="skill-top"><span class="skill-name">Next.js</span><span class="skill-pct">75%</span></div>
-            <div class="skill-bar"><div class="skill-fill" data-width="75"></div></div>
-          </div>
-        </div>
-
-        <div class="skill-card" data-aos="fade-up" data-aos-delay="480">
-          <div class="skill-icon vue-icon"><i class="fab fa-vuejs"></i></div>
-          <div class="skill-info">
-            <div class="skill-top"><span class="skill-name">Vue.js</span><span class="skill-pct">85%</span></div>
-            <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
-          </div>
-        </div>
-
-        <div class="skill-card" data-aos="fade-up" data-aos-delay="540">
-          <div class="skill-icon docker-icon"><i class="fab fa-docker"></i></div>
-          <div class="skill-info">
-            <div class="skill-top"><span class="skill-name">Docker</span><span class="skill-pct">70%</span></div>
-            <div class="skill-bar"><div class="skill-fill" data-width="70"></div></div>
-          </div>
-        </div>
-
+          <a class="evidence-link" href="#project-tiff"><span data-i18n="skills-tools-proof">Read the TIFF case study</span><i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+        </article>
       </div>
     </div>
   </section>
@@ -409,82 +405,6 @@
     </div>
   </section>
 
-  <!-- ─── PROJECTS ────────────────────────────────────── -->
-  <section id="projects" class="projects section">
-    <div class="container">
-      <div class="section-header" data-aos="fade-up">
-        <span class="section-tag" data-i18n="projects-tag">Featured Work</span>
-        <h2 class="section-title" data-i18n-html="projects-title">Recent <span class="gradient-text">Projects</span></h2>
-      </div>
-      <div class="projects-grid">
-        <!-- GymBuddy -->
-        <div class="project-card" data-aos="fade-up">
-          <div class="project-header">
-            <div class="project-icon"><i class="fas fa-dumbbell"></i></div>
-            <div class="project-links">
-              <a href="https://github.com/danilocappelletti/GymBuddy" class="project-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
-            </div>
-          </div>
-          <h3 class="project-name">GymBuddy</h3>
-          <p class="project-subtitle" data-i18n="projects-gymbuddy-subtitle">Personal Next.js Test</p>
-          <p class="project-description" data-i18n="projects-gymbuddy-desc">Personal project testing Next.js + Prisma workflows. Booking platform with credit systems, instructor management, and advanced reporting for activities and classes.</p>
-          <div class="project-tech">
-            <span class="tech-tag">Next.js</span>
-            <span class="tech-tag">TypeScript</span>
-            <span class="tech-tag">Prisma</span>
-            <span class="tech-tag">PostgreSQL</span>
-            <span class="tech-tag">Stripe</span>
-            <span class="tech-tag">Tailwind</span>
-          </div>
-        </div>
-
-        <!-- TIFF Image Editor -->
-        <div class="project-card" data-aos="fade-up" data-aos-delay="80">
-          <div class="project-header">
-            <div class="project-icon"><i class="fas fa-image"></i></div>
-            <div class="project-links">
-              <a href="tiff-demo.html" class="project-link" target="_blank" rel="noopener noreferrer" aria-label="View Demo"><i class="fas fa-play"></i></a>
-            </div>
-          </div>
-          <div style="margin-bottom:12px;">
-            <h3 class="project-name">TIFF Image Editor</h3>
-            <p class="project-subtitle" data-i18n="projects-tiff-subtitle">Papyri Reconstruction Tool</p>
-            <a href="https://research-and-innovation.ec.europa.eu/funding/funding-opportunities/seal-excellence_en" target="_blank" rel="noopener noreferrer" class="award-badge">
-              <i class="fas fa-star"></i> <span data-i18n="projects-award">Seal of Excellence</span>
-            </a>
-          </div>
-          <p class="project-description" data-i18n="projects-tiff-desc">Reconstructs burned and mistreated papyri using multi-image stitching and high-precision measurement tools. Won EU Seal of Excellence.</p>
-          <div class="project-tech">
-            <span class="tech-tag">Python</span>
-            <span class="tech-tag">Pillow</span>
-            <span class="tech-tag">Tkinter</span>
-            <span class="tech-tag">PyInstaller</span>
-          </div>
-        </div>
-
-        <!-- Sensor Monitor -->
-        <div class="project-card" data-aos="fade-up" data-aos-delay="160">
-          <div class="project-header">
-            <div class="project-icon"><i class="fas fa-chart-line"></i></div>
-            <div class="project-links">
-              <a href="sensor-demo.html" class="project-link" target="_blank" rel="noopener noreferrer" aria-label="View Demo"><i class="fas fa-play"></i></a>
-              <a href="https://github.com/danilocappelletti/moveSolutions_challenge" class="project-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
-            </div>
-          </div>
-          <h3 class="project-name">Sensor Monitor</h3>
-          <p class="project-subtitle" data-i18n="projects-sensor-subtitle">Real-Time Data Dashboard</p>
-          <p class="project-description" data-i18n="projects-sensor-desc">Vue 3 + TypeScript dashboard for monitoring IoT sensor data with live charts, historical analytics, and responsive data tables.</p>
-          <div class="project-tech">
-            <span class="tech-tag">Vue 3</span>
-            <span class="tech-tag">TypeScript</span>
-            <span class="tech-tag">Chart.js</span>
-            <span class="tech-tag">Tailwind</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ─── EDUCATION ──────────────────────────────────── -->
   <section id="education" class="education section">
     <div class="container">
@@ -583,7 +503,9 @@
     </div>
   </section>
 
-  <!-- ─── FOOTER ─────────────────────────────────────── -->  </main>  <footer class="footer">
+  </main>
+  <!-- ─── FOOTER ─────────────────────────────────────── -->
+  <footer class="footer">
     <div class="container">
       <div class="footer-top">
         <a href="#hero" class="footer-logo">DC<span class="dot">.</span></a>
