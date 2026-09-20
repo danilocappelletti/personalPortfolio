@@ -6,17 +6,24 @@ const ctx    = canvas.getContext('2d');
 let particles = [];
 let raf;
 
+// Size to the hero box (not window.innerWidth) so the canvas never exceeds the layout width
 function resizeCanvas() {
-  canvas.width  = window.innerWidth;
-  canvas.height = window.innerHeight;
+  const { width, height } = canvas.parentElement.getBoundingClientRect();
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  canvas.width  = Math.round(width  * dpr);
+  canvas.height = Math.round(height * dpr);
+  canvas.style.width  = `${width}px`;
+  canvas.style.height = `${height}px`;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  canvas.w = width; canvas.h = height;
 }
 
 class Particle {
   constructor() { this.reset(true); }
 
   reset(initial = false) {
-    this.x  = Math.random() * canvas.width;
-    this.y  = initial ? Math.random() * canvas.height : (Math.random() < 0.5 ? 0 : canvas.height);
+    this.x  = Math.random() * canvas.w;
+    this.y  = initial ? Math.random() * canvas.h : (Math.random() < 0.5 ? 0 : canvas.h);
     this.vx = (Math.random() - 0.5) * 0.55;
     this.vy = (Math.random() - 0.5) * 0.55;
     this.r  = Math.random() * 1.8 + 0.4;
@@ -27,8 +34,8 @@ class Particle {
   update() {
     this.x += this.vx;
     this.y += this.vy;
-    if (this.x < 0 || this.x > canvas.width)  this.vx *= -1;
-    if (this.y < 0 || this.y > canvas.height)  this.vy *= -1;
+    if (this.x < 0 || this.x > canvas.w)  this.vx *= -1;
+    if (this.y < 0 || this.y > canvas.h)  this.vy *= -1;
   }
 
   draw() {
@@ -41,7 +48,7 @@ class Particle {
 
 function initParticles() {
   particles = [];
-  const count = Math.min(Math.floor(canvas.width / 13), 110);
+  const count = Math.min(Math.floor(canvas.w / 13), 110);
   for (let i = 0; i < count; i++) particles.push(new Particle());
 }
 
@@ -64,41 +71,44 @@ function drawLines() {
 }
 
 function animateParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, canvas.w, canvas.h);
   particles.forEach(p => { p.update(); p.draw(); });
   drawLines();
   raf = requestAnimationFrame(animateParticles);
 }
 
 /* ============================================================
-   CUSTOM CURSOR
+   CUSTOM CURSOR — pointer devices only
    ============================================================ */
 const cursorEl  = document.getElementById('cursor');
 const followerEl = document.getElementById('cursor-follower');
+const hasFinePointer = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
 let mx = 0, my = 0, fx = 0, fy = 0;
 
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cursorEl.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
-});
-
-(function animateCursor() {
-  fx += (mx - fx) * 0.11;
-  fy += (my - fy) * 0.11;
-  followerEl.style.transform = `translate(${fx - 19}px, ${fy - 19}px)`;
-  requestAnimationFrame(animateCursor);
-})();
-
-document.querySelectorAll('a,button,.skill-card,.timeline-card,.education-card').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    cursorEl.style.opacity  = '0';
-    followerEl.style.opacity = '0';
+if (hasFinePointer) {
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursorEl.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
   });
-  el.addEventListener('mouseleave', () => {
-    cursorEl.style.opacity  = '1';
-    followerEl.style.opacity = '1';
+
+  (function animateCursor() {
+    fx += (mx - fx) * 0.11;
+    fy += (my - fy) * 0.11;
+    followerEl.style.transform = `translate(${fx - 19}px, ${fy - 19}px)`;
+    requestAnimationFrame(animateCursor);
+  })();
+
+  document.querySelectorAll('a,button,.skill-card,.timeline-card,.education-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursorEl.style.opacity  = '0';
+      followerEl.style.opacity = '0';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursorEl.style.opacity  = '1';
+      followerEl.style.opacity = '1';
+    });
   });
-});
+}
 
 /* Card spotlight: one delegated listener feeds --mx/--my to the hovered card */
 document.addEventListener('pointermove', e => {
@@ -146,14 +156,19 @@ window.addEventListener('scroll', () => {
   highlightNav();
 }, { passive: true });
 
-hamburger.addEventListener('click', () => {
-  hamburger.classList.toggle('open');
-  navMenu.classList.toggle('open');
+function setMenu(open) {
+  hamburger.classList.toggle('open', open);
+  navMenu.classList.toggle('open', open);
+  document.documentElement.classList.toggle('nav-open', open);
+  hamburger.setAttribute('aria-expanded', String(open));
+}
+
+hamburger.addEventListener('click', () => setMenu(!navMenu.classList.contains('open')));
+navLinks.forEach(l => l.addEventListener('click', () => setMenu(false)));
+document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+document.addEventListener('click', e => {
+  if (navMenu.classList.contains('open') && !navMenu.contains(e.target) && !hamburger.contains(e.target)) setMenu(false);
 });
-navLinks.forEach(l => l.addEventListener('click', () => {
-  hamburger.classList.remove('open');
-  navMenu.classList.remove('open');
-}));
 
 function highlightNav() {
   const scrollY = window.scrollY + 120;
@@ -263,16 +278,30 @@ document.getElementById('contact-form')?.addEventListener('submit', function(e) 
 /* ============================================================
    INIT
    ============================================================ */
-window.addEventListener('load', () => {
+function startParticles() {
   resizeCanvas();
   initParticles();
+  cancelAnimationFrame(raf);
   animateParticles();
-});
+}
 
+// Run immediately (not on `load`) so the first paint already has a correctly-sized canvas
+startParticles();
+
+// Debounced; ignores the height-only "resizes" fired by the mobile URL bar
+let resizeTimer, lastW = window.innerWidth;
 window.addEventListener('resize', () => {
-  resizeCanvas();
-  initParticles();
+  if (window.innerWidth === lastW) return;
+  lastW = window.innerWidth;
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(startParticles, 150);
 }, { passive: true });
+
+// Pause the rAF loop when the tab is hidden
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) cancelAnimationFrame(raf);
+  else animateParticles();
+});
 
 /* ============================================================
    I18N – MULTI-LANGUAGE (EN / IT)
@@ -281,6 +310,7 @@ const i18n = {
   en: {
     'nav-about':      'About',
     'nav-skills':     'Skills',
+    'nav-projects':   'Projects',
     'nav-experience': 'Experience',
     'nav-education':  'Education',
     'nav-contact':    'Contact',
@@ -352,6 +382,7 @@ const i18n = {
   it: {
     'nav-about':      'Chi sono',
     'nav-skills':     'Competenze',
+    'nav-projects':   'Progetti',
     'nav-experience': 'Esperienza',
     'nav-education':  'Formazione',
     'nav-contact':    'Contatti',

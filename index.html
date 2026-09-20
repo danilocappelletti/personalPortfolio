@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
   <!-- Primary meta -->
   <title>Danilo Cappelletti | Software Developer</title>
@@ -47,12 +47,14 @@
 </head>
 <body>
 
+  <a href="#about" class="skip-link">Skip to content</a>
+
   <!-- Custom Cursor -->
   <div class="cursor" id="cursor"></div>
   <div class="cursor-follower" id="cursor-follower"></div>
 
   <!-- ─── NAVBAR ─────────────────────────────────────── -->
-  <nav id="navbar" class="navbar">
+  <nav id="navbar" class="navbar" aria-label="Primary">
     <div class="nav-container">
       <a href="#hero" class="nav-logo">DC<span class="dot">.</span></a>
       <ul class="nav-menu" id="nav-menu">
@@ -68,16 +70,17 @@
           <i class="fas fa-file-pdf"></i><span>PDF</span>
         </a>
         <button class="lang-btn" id="lang-btn" aria-label="Switch language">IT</button>
-        <div class="hamburger" id="hamburger">
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-controls="nav-menu" aria-expanded="false">
           <span></span><span></span><span></span>
-        </div>
+        </button>
       </div>
     </div>
   </nav>
 
   <!-- ─── HERO ───────────────────────────────────────── -->
+  <main>
   <section id="hero" class="hero">
-    <canvas id="particles-canvas"></canvas>
+    <canvas id="particles-canvas" aria-hidden="true"></canvas>
     <div class="hero-bg-gradient"></div>
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
@@ -580,8 +583,7 @@
     </div>
   </section>
 
-  <!-- ─── FOOTER ─────────────────────────────────────── -->
-  <footer class="footer">
+  <!-- ─── FOOTER ─────────────────────────────────────── -->  </main>  <footer class="footer">
     <div class="container">
       <div class="footer-top">
         <a href="#hero" class="footer-logo">DC<span class="dot">.</span></a>
@@ -598,6 +600,6 @@
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>

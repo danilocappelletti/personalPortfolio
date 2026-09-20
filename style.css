@@ -41,22 +41,44 @@
    ============================================================ */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
-html { scroll-behavior: smooth; font-size: 16px; }
+/* clip (not hidden) on both html+body: kills horizontal panning on mobile without creating a scroll container */
+html {
+  scroll-behavior: smooth; font-size: 16px;
+  overflow-x: hidden; overflow-x: clip;
+}
 
 body {
   font-family: var(--font-b);
   background: var(--bg);
   color: var(--text);
   line-height: 1.6;
-  overflow-x: hidden;
-  cursor: none;
+  overflow-x: hidden; overflow-x: clip;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
 }
 
 a  { color: inherit; text-decoration: none; }
 img { max-width:100%; display:block; }
 ul  { list-style: none; }
+button { font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
 
 ::selection { background: rgba(124,58,237,0.35); }
+
+:focus-visible {
+  outline:2px solid var(--primary-light);
+  outline-offset:3px;
+  border-radius:4px;
+}
+
+.skip-link {
+  position:fixed; top:12px; left:12px; z-index:2000;
+  padding:10px 16px; border-radius:100px;
+  background:var(--primary); color:#fff;
+  font-family:var(--font-h); font-weight:600; font-size:.85rem;
+  transform:translateY(-200%);
+  transition:transform var(--t) var(--ease);
+}
+.skip-link:focus-visible { transform:none; }
 
 /* Scroll progress bar — pure CSS scroll-driven animation, no JS */
 body::after {
@@ -87,8 +109,15 @@ body::after {
 ::-webkit-scrollbar-thumb:hover  { background: var(--primary-light); }
 
 /* ============================================================
-   CUSTOM CURSOR
+   CUSTOM CURSOR — only on devices with a real pointer
    ============================================================ */
+.cursor, .cursor-follower { display:none; }
+
+@media (hover:hover) and (pointer:fine) {
+  body { cursor:none; }
+  .cursor, .cursor-follower { display:block; }
+}
+
 .cursor {
   width:12px; height:12px;
   background: var(--primary);
@@ -142,12 +171,14 @@ body::after {
   font-size: clamp(2rem,4vw,2.9rem);
   font-weight:700; line-height:1.2;
   margin-bottom:14px;
+  text-wrap:balance;
 }
 
 .section-subtitle {
   color:var(--text-muted);
   font-size:1.05rem;
   max-width:540px; margin:0 auto;
+  text-wrap:pretty;
 }
 
 /* Buttons */
@@ -277,7 +308,8 @@ body::after {
 
 .hamburger {
   display:none; flex-direction:column; gap:5px;
-  cursor:pointer; padding:5px; z-index:100;
+  cursor:pointer; padding:5px;
+  position:relative; z-index:100; /* keep above the slide-in panel */
 }
 .hamburger span {
   display:block; width:24px; height:2px;
@@ -293,7 +325,8 @@ body::after {
    HERO
    ============================================================ */
 .hero {
-  position:relative; min-height:100vh;
+  position:relative;
+  min-height:100vh; min-height:100svh; /* svh: stable on mobile when the URL bar collapses */
   display:flex; align-items:center; justify-content:center;
   overflow:hidden; background:var(--bg);
 }
@@ -376,7 +409,7 @@ body::after {
 .hero-description {
   font-size:1.08rem; color:var(--text-muted);
   max-width:580px; margin:0 auto 40px;
-  line-height:1.85;
+  line-height:1.85; text-wrap:pretty;
   opacity:0; animation:fadeSlideUp .8s ease .75s forwards;
 }
 
@@ -468,6 +501,9 @@ body::after {
 }
 .badge-number { display:block; font-family:var(--font-h); font-size:2.2rem; font-weight:700; line-height:1; }
 .badge-text   { font-size:.68rem; text-transform:uppercase; letter-spacing:.08em; opacity:.92; }
+
+/* grid/flex children default to min-width:auto and can blow out the layout */
+.about-content, .skill-info, .edu-info, .timeline-card, .project-card { min-width:0; }
 
 .about-content h3 {
   font-family:var(--font-h);
@@ -1140,23 +1176,40 @@ a.contact-value:hover { color:var(--primary-light); }
   .about-grid   { grid-template-columns:1fr; gap:56px; }
   .about-image-col { max-width:380px; margin:0 auto; }
 
+  /* Horizontal reveals widen the document before they animate in — go vertical once stacked */
+  [data-aos="fade-right"], [data-aos="fade-left"] { transform:translateY(44px); }
+  [data-aos="fade-right"].aos-animate, [data-aos="fade-left"].aos-animate { transform:none; }
 }
 
 @media (max-width:768px) {
   .section { padding:72px 0; }
 
   .nav-menu {
-    position:fixed; top:0; right:-100%;
-    width:75%; max-width:300px; height:100vh;
+    position:fixed; top:0; right:0;
+    width:min(75%, 300px);
+    height:100vh; height:100dvh;
     background:var(--bg-3);
     flex-direction:column; justify-content:center;
     align-items:center; gap:48px;
-    transition:right var(--t) var(--ease);
     border-left:1px solid var(--border);
+    transform:translateX(100%); visibility:hidden;
+    transition:transform var(--t) var(--ease), visibility 0s linear var(--t);
   }
-  .nav-menu.open  { right:0; }
+  .nav-menu.open  { transform:none; visibility:visible; transition-delay:0s; }
   .hamburger      { display:flex; }
 
+  /* Dimmed backdrop + scroll lock while the panel is open */
+  body::before {
+    content:''; position:fixed; inset:0; z-index:999;
+    background:rgba(15,14,23,.6);
+    backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+    opacity:0; pointer-events:none;
+    transition:opacity var(--t);
+  }
+  html.nav-open body::before { opacity:1; pointer-events:auto; }
+  html.nav-open { overflow:hidden; }
+
+  .hero           { padding:96px 0 48px; } /* room for the fixed nav on short screens */
   .hero-cta       { flex-direction:column; align-items:center; }
   .scroll-indicator { display:none; }
 
@@ -1180,13 +1233,24 @@ a.contact-value:hover { color:var(--primary-light); }
   .timeline-dot     { left:8px; }
 
   .contact-form { padding:24px; }
-
-  body { cursor:auto; }
-  .cursor, .cursor-follower { display:none; }
 }
 
 @media (max-width:480px) {
-  .hero-name { font-size:clamp(2.8rem,12vw,4rem); }
+  .container, .nav-container, .hero-content { padding-left:18px; padding-right:18px; }
+  .hero-name { font-size:clamp(2.5rem,12vw,4rem); }
+  .hero-cta .btn { width:100%; max-width:320px; justify-content:center; }
   .skills-grid { grid-template-columns:1fr; }
-  .about-badge { bottom:-16px; right:0; }
+  .skill-card { padding:20px; }
+
+  /* image-bg bleed + badge overhang were the two things poking past the viewport */
+  .about-image-bg { inset:-12px; }
+  .about-badge { bottom:-16px; right:0; padding:12px 16px; }
+  .badge-number { font-size:1.8rem; }
+
+  .timeline-card { padding:22px 18px; }
+  .project-card  { padding:24px 20px; }
+  .education-card, .languages-card { padding:28px 18px; }
+  .edu-decoration { width:160px; height:160px; }
+  .contact-item { gap:12px; margin-bottom:24px; }
+  .contact-value { word-break:break-word; }
 }
