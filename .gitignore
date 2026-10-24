@@ -12,4 +12,6 @@
 !assets/
 !assets/**
 !portfolio.pdf
+!portfolio_en.pdf
+!portfolio_it.pdf
 !generate_pdf.py

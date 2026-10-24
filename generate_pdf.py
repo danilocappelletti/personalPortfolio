@@ -1,11 +1,11 @@
 """
 generate_pdf.py
-Generates a styled PDF of the portfolio using Playwright.
+Generates a styled PDF of the portfolio in each supported language.
 
 Usage:
-    python generate_pdf.py [output_filename]
+    python generate_pdf.py [en|it ...]
 
-Default output: portfolio.pdf
+Default: builds portfolio_en.pdf and portfolio_it.pdf.
 """
 
 import asyncio
@@ -24,8 +24,11 @@ except ImportError:
 
 PORTFOLIO_DIR = Path(__file__).parent.resolve()
 HTML_FILE     = PORTFOLIO_DIR / "index.html"
-OUTPUT_FILE   = PORTFOLIO_DIR / (sys.argv[1] if len(sys.argv) > 1 else "portfolio.pdf")
 PUBLIC_URL    = "https://danilocappelletti.github.io/personalPortfolio/"
+LANGUAGES     = {
+    "en": {"link_label": "Online portfolio:", "title": "Danilo Cappelletti - Portfolio"},
+    "it": {"link_label": "Portfolio online:", "title": "Danilo Cappelletti - Portfolio"},
+}
 
 
 PRINT_CSS = """
@@ -63,8 +66,8 @@ PRINT_CSS = """
     .projects-grid { gap: 20px; }
     .project-card { padding: 20px; }
     .project-bottom { margin-top: 16px; padding-top: 12px; }
-    .about-grid { grid-template-columns: 220px minmax(0, 1fr); gap: 28px; }
-    .about-image-col { width: 100%; }
+    .about-grid { display: block !important; }
+    .about-image-col { float: left; width: 220px; margin: 0 28px 16px 0; }
     .about-photo { width: 220px; height: 220px; }
     .about-bio { margin-bottom: 10px; }
     .about-stats { margin: 16px 0; }
@@ -73,7 +76,7 @@ PRINT_CSS = """
     .timeline-card { padding: 20px; }
     .education-card, .languages-card { padding: 24px; }
     .education-card { flex-direction: column; align-items: flex-start; gap: 16px; }
-    .featured-project, .project-card, .capability, .timeline-item,
+    .project-card, .capability, .timeline-item,
     .education-card, .languages-card, .contact-item { break-inside: avoid; }
     h2, h3, dt { break-after: avoid; }
     p, dd { orphans: 3; widows: 3; }
@@ -81,58 +84,78 @@ PRINT_CSS = """
 """
 
 
-async def generate():
-    url = HTML_FILE.as_uri()
-    print(f"Source : {HTML_FILE}")
-    print(f"Output : {OUTPUT_FILE}")
+async def generate(browser, lang):
+    output_file = PORTFOLIO_DIR / f"portfolio_{lang}.pdf"
+    settings = LANGUAGES[lang]
+    print(f"[{lang}] Output: {output_file.name}")
 
+    # script.js reads dc-lang on load, so setting it before the page runs picks the language.
+    context = await browser.new_context(viewport={"width": 1280, "height": 900})
+    await context.add_init_script(f"localStorage.setItem('dc-lang', '{lang}')")
+    page = await context.new_page()
+    await page.goto(HTML_FILE.as_uri(), wait_until="load", timeout=30000)
+    await page.evaluate("document.fonts.ready")
+    # Lazy images and scroll-reveal sections never render without scrolling, so force them before printing.
+    await page.evaluate("""async () => {
+        document.querySelectorAll('img[loading="lazy"]').forEach(img => img.loading = 'eager');
+        document.querySelectorAll('[data-aos]').forEach(el => el.classList.add('aos-animate'));
+        await Promise.all([...document.images].map(img => img.complete ? null :
+            new Promise(done => { img.onload = img.onerror = done; })));
+    }""")
+    await page.emulate_media(media="print", reduced_motion="reduce")
+    await page.add_style_tag(content=PRINT_CSS)
+    await page.evaluate("""([publicUrl, linkLabel, title]) => {
+        document.title = title;
+        document.querySelectorAll('[data-target]').forEach(el => {
+            el.textContent = el.dataset.target;
+        });
+        document.querySelectorAll('a[href]').forEach(link => {
+            link.href = new URL(link.getAttribute('href'), publicUrl).href;
+        });
+        const link = document.createElement('a');
+        link.id = 'pdf-portfolio-link';
+        link.href = publicUrl;
+        link.textContent = `${linkLabel} ${publicUrl}`;
+        document.querySelector('.hero-content').appendChild(link);
+        const year = document.getElementById('footer-year');
+        if (year) year.textContent = new Date().getFullYear();
+    }""", [PUBLIC_URL, settings["link_label"], settings["title"]])
+
+    await page.pdf(
+        path=str(output_file),
+        format="A4",
+        print_background=True,
+        display_header_footer=True,
+        header_template="<span></span>",
+        footer_template=(
+            '<div style="width:100%;padding:0 24px;font-size:9px;color:#555;'
+            'display:flex;justify-content:space-between">'
+            f'<span>{PUBLIC_URL}</span>'
+            '<span><span class="pageNumber"></span> / '
+            '<span class="totalPages"></span></span></div>'
+        ),
+        margin={"top": "8mm", "right": "0", "bottom": "14mm", "left": "0"},
+        scale=0.85,
+    )
+    await context.close()
+
+    size_kb = output_file.stat().st_size // 1024
+    print(f"[{lang}] Done: {output_file.name} ({size_kb} KB)")
+
+
+async def main(langs):
     async with async_playwright() as p:
         browser = await p.chromium.launch(
             args=["--no-sandbox", "--disable-setuid-sandbox"]
         )
-        page = await browser.new_page(viewport={"width": 1280, "height": 900})
-        await page.goto(url, wait_until="domcontentloaded", timeout=8000)
-        await asyncio.sleep(0.2)
-        await page.emulate_media(media="print", reduced_motion="reduce")
-        await page.add_style_tag(content=PRINT_CSS)
-        await page.evaluate("""publicUrl => {
-            document.querySelectorAll('[data-target]').forEach(el => {
-                el.textContent = el.dataset.target;
-            });
-            document.querySelectorAll('a[href]').forEach(link => {
-                link.href = new URL(link.getAttribute('href'), publicUrl).href;
-            });
-            const link = document.createElement('a');
-            link.id = 'pdf-portfolio-link';
-            link.href = publicUrl;
-            link.textContent = `Online portfolio: ${publicUrl}`;
-            document.querySelector('.hero-content').appendChild(link);
-            const year = document.getElementById('footer-year');
-            if (year) year.textContent = new Date().getFullYear();
-        }""", PUBLIC_URL)
-
-        await page.pdf(
-            path=str(OUTPUT_FILE),
-            format="A4",
-            print_background=True,
-            display_header_footer=True,
-            header_template="<span></span>",
-            footer_template=(
-                '<div style="width:100%;padding:0 24px;font-size:9px;color:#555;'
-                'display:flex;justify-content:space-between">'
-                f'<span>{PUBLIC_URL}</span>'
-                '<span><span class="pageNumber"></span> / '
-                '<span class="totalPages"></span></span></div>'
-            ),
-            margin={"top": "8mm", "right": "0", "bottom": "14mm", "left": "0"},
-            scale=0.85,
-        )
-
+        for lang in langs:
+            await generate(browser, lang)
         await browser.close()
-
-    size_kb = OUTPUT_FILE.stat().st_size // 1024
-    print(f"Done!   {OUTPUT_FILE.name}  ({size_kb} KB)")
 
 
 if __name__ == "__main__":
-    asyncio.run(generate())
+    requested = sys.argv[1:] or list(LANGUAGES)
+    unknown = [lang for lang in requested if lang not in LANGUAGES]
+    if unknown:
+        sys.exit(f"Unsupported language(s): {', '.join(unknown)}. Use: {', '.join(LANGUAGES)}")
+    asyncio.run(main(requested))
