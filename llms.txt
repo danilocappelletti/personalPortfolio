@@ -19,7 +19,7 @@ Language: English (default) with an Italian version available on the site (toggl
 
 ## Projects
 - TIFF Image Editor (papyrus reconstruction tool): sole developer of a Python desktop application (Pillow, Tkinter, PyInstaller) for arranging and stitching very large scans, with precision measurement tools. Received the EU Seal of Excellence; not funded. Browser demo: https://danilocappelletti.github.io/personalPortfolio/tiff-demo.html
-- Sensor Monitor: Vue 3 and TypeScript dashboard for IoT sensor monitoring with live charts (Chart.js), historical analytics and responsive tables (Tailwind). Browser demo with simulated data: https://danilocappelletti.github.io/personalPortfolio/sensor-demo.html
+- Sensor Monitor (test project, not a production application): Vue 3 and TypeScript dashboard built to practise IoT-style monitoring, with charts (Chart.js), analytics and responsive tables (Tailwind). Browser demo with sample data: https://danilocappelletti.github.io/personalPortfolio/sensor-demo.html
 - GymBuddy: personal full-stack booking platform built with Next.js, TypeScript, Prisma, PostgreSQL and Stripe, with credit systems, instructor management and reporting. Source: https://github.com/danilocappelletti/GymBuddy
 
 ## Skills
@@ -44,4 +44,4 @@ Language: English (default) with an Italian version available on the site (toggl
 ## Pages
 - Home (projects, about, skills, experience, education, contact): https://danilocappelletti.github.io/personalPortfolio/
 - TIFF Image Editor demo: https://danilocappelletti.github.io/personalPortfolio/tiff-demo.html
-- Sensor Monitor demo: https://danilocappelletti.github.io/personalPortfolio/sensor-demo.html
+- Sensor Monitor test project demo: https://danilocappelletti.github.io/personalPortfolio/sensor-demo.html
