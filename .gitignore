@@ -4,6 +4,7 @@
 # Except these
 !.gitignore
 !index.html
+!llms.txt
 !sensor-demo.html
 !tiff-demo.html
 !tiff-demo.css

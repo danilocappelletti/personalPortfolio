@@ -1,0 +1,47 @@
+# Danilo Cappelletti – Software Developer
+
+> Software Developer based in Pisa, Italy, with 6+ years of experience building enterprise web applications with React.js, Vue.js and Node.js, plus specialist Python tools for papyrus reconstruction. Portfolio site: https://danilocappelletti.github.io/personalPortfolio/
+
+Language: English (default) with an Italian version available on the site (toggle "IT" in the navbar).
+
+## Contact
+- Email: danilobcappelletti@gmail.com
+- Phone: +39 345 806 2933
+- Location: Pisa, Italy
+- GitHub: https://github.com/danilocappelletti
+- LinkedIn: https://it.linkedin.com/in/danilo-cappelletti-b9b3731a3
+
+## Work experience
+- Software Developer, Stetel Srl (Livorno, Italy), November 2025 – June 2026: Vue.js web applications, modular JavaScript, Docker-based development environments, REST API integration, agile team.
+- Software Developer, Apparound SpA (Pisa, Italy), September 2022 – September 2025: enterprise full-stack applications with React.js and Node.js, REST API design and integration, cross-functional technical coordination.
+- Web Developer, Unikey Corporation (Pisa, Italy), September 2020 – September 2022: WordPress websites, performance optimisation with HTML, CSS and Vanilla JavaScript, responsive React.js interfaces.
+- Web Developer, JC Management (Dubai, UAE, remote), May 2021 – August 2022: reusable React.js front-end components and responsive, pixel-precise implementations for a Dubai-based client.
+
+## Projects
+- TIFF Image Editor (papyrus reconstruction tool): sole developer of a Python desktop application (Pillow, Tkinter, PyInstaller) for arranging and stitching very large scans, with precision measurement tools. Received the EU Seal of Excellence; not funded. Browser demo: https://danilocappelletti.github.io/personalPortfolio/tiff-demo.html
+- Sensor Monitor: Vue 3 and TypeScript dashboard for IoT sensor monitoring with live charts (Chart.js), historical analytics and responsive tables (Tailwind). Browser demo with simulated data: https://danilocappelletti.github.io/personalPortfolio/sensor-demo.html
+- GymBuddy: personal full-stack booking platform built with Next.js, TypeScript, Prisma, PostgreSQL and Stripe, with credit systems, instructor management and reporting. Source: https://github.com/danilocappelletti/GymBuddy
+
+## Skills
+- Languages: JavaScript, TypeScript, Python, HTML5, CSS3, SCSS
+- Frameworks and libraries: React.js, Next.js, Vue.js, Vue 3, Node.js, Tailwind, Chart.js, Tkinter, Pillow
+- Tools and platforms: Docker, PostgreSQL, Prisma, Stripe, REST APIs, WordPress, PyInstaller
+
+## Education
+- Scientific High School Diploma (Diploma di Liceo Scientifico), I.S.I.S. "Zuccarelli", Manciano, Italy. Final grade 98/100. EQF level 4. Focus: mathematics and physics, logic and problem solving, humanities and languages.
+
+## Languages spoken
+- Italian: native
+- English: professional
+- Polish: conversational
+
+## Documents
+- Full CV (PDF, English): https://danilocappelletti.github.io/personalPortfolio/portfolio_en.pdf
+- Full CV (PDF, Italian): https://danilocappelletti.github.io/personalPortfolio/portfolio_it.pdf
+- Europass CV (one-page PDF, English): https://danilocappelletti.github.io/personalPortfolio/europass_en.pdf
+- Europass CV (one-page PDF, Italian): https://danilocappelletti.github.io/personalPortfolio/europass_it.pdf
+
+## Pages
+- Home (projects, about, skills, experience, education, contact): https://danilocappelletti.github.io/personalPortfolio/
+- TIFF Image Editor demo: https://danilocappelletti.github.io/personalPortfolio/tiff-demo.html
+- Sensor Monitor demo: https://danilocappelletti.github.io/personalPortfolio/sensor-demo.html

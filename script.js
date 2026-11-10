@@ -275,6 +275,9 @@ const i18n = {
     'skills-tools-title': 'Specialist tools',
     'skills-tools-desc': 'Arranging very large images and measuring them precisely for papyrus reconstruction; charts and data interfaces for IoT sensor monitoring.',
     'skills-tools-proof': 'Read the TIFF case study',
+    'stack-langs': 'Languages',
+    'stack-frameworks': 'Frameworks & libraries',
+    'stack-tools': 'Tools & platforms',
 
     'projects-tag':   'Selected work',
     'projects-title': 'Real problems.<br /><span class="gradient-text">Practical solutions.</span>',
@@ -376,6 +379,9 @@ const i18n = {
     'skills-tools-title': 'Strumenti specialistici',
         'skills-tools-desc': 'Disposizione di immagini molto grandi e misure di precisione per ricostruire i papiri; grafici e interfacce dati per il monitoraggio di sensori IoT.',
         'skills-tools-proof': 'Leggi il caso di studio TIFF',
+        'stack-langs': 'Linguaggi',
+        'stack-frameworks': 'Framework e librerie',
+        'stack-tools': 'Strumenti e piattaforme',
 
     'projects-tag':   'Progetti selezionati',
         'projects-title': 'Problemi concreti.<br /><span class="gradient-text">Soluzioni pratiche.</span>',
