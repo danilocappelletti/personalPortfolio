@@ -9,202 +9,526 @@
 </head>
 <body>
 <div class="demo-container">
-    <div class="header">
+    <header class="header">
         <h1><i class="fas fa-image"></i> TIFF Image Editor</h1>
         <button class="close-btn" onclick="goBack()">← Back to Portfolio</button>
-    </div>
-    
+    </header>
+
     <div class="workspace">
-        <div class="toolbar">
-            <button class="tool-btn active" onclick="setTool('add')"><i class="fas fa-plus"></i> Add Section</button>
-            <button class="tool-btn" onclick="setTool('select')"><i class="fas fa-hand-pointer"></i> Select</button>
-            <button class="tool-btn" onclick="arrangeH()"><i class="fas fa-arrows-alt-h"></i> H-Arrange</button>
-            <button class="tool-btn" onclick="arrangeV()"><i class="fas fa-arrows-alt-v"></i> V-Arrange</button>
-            
-            <div class="tool-section">Transform</div>
-            <button class="tool-btn" onclick="rotateSelected()"><i class="fas fa-sync"></i> Rotate 90°</button>
-            <button class="tool-btn" onclick="flipSelected()"><i class="fas fa-arrows-alt-h"></i> Flip H</button>
-            
-            <div class="tool-section">Canvas</div>
-            <button class="tool-btn" onclick="clearAll()"><i class="fas fa-trash"></i> Clear All</button>
-            <button class="tool-btn" onclick="exportDemo()"><i class="fas fa-download"></i> Export</button>
-        </div>
+        <nav class="toolbar" aria-label="Tools">
+            <div class="tool-group">
+                <div class="tool-section">Load</div>
+                <button class="tool-btn" onclick="addScan(1)"><i class="fas fa-file-image"></i> Load TIFF</button>
+                <button class="tool-btn" onclick="addScan(3)"><i class="fas fa-folder-open"></i> Multi-File</button>
+            </div>
+            <div class="tool-group">
+                <div class="tool-section">Arrange</div>
+                <button class="tool-btn" onclick="arrange('h')"><i class="fas fa-arrows-alt-h"></i> Horizontal</button>
+                <button class="tool-btn" onclick="arrange('v')"><i class="fas fa-arrows-alt-v"></i> Vertical</button>
+                <button class="tool-btn" onclick="arrange('g')"><i class="fas fa-th"></i> Grid</button>
+                <label class="field">Spacing
+                    <input type="range" min="0" max="5" step="0.5" value="1" id="spacing"
+                           oninput="document.getElementById('spacingVal').textContent = this.value + ' cm'">
+                    <span id="spacingVal">1 cm</span>
+                </label>
+            </div>
+            <div class="tool-group">
+                <div class="tool-section">Tools</div>
+                <button class="tool-btn active" data-tool="move" onclick="setTool('move')"><i class="fas fa-hand-pointer"></i> Move</button>
+                <button class="tool-btn" data-tool="ruler" onclick="setTool('ruler')"><i class="fas fa-ruler"></i> Ruler</button>
+            </div>
+            <div class="tool-group">
+                <div class="tool-section">Transform</div>
+                <button class="tool-btn" onclick="rotateSelected()"><i class="fas fa-sync"></i> Rotate 90°</button>
+                <button class="tool-btn" onclick="flipSelected()"><i class="fas fa-arrows-alt-h"></i> Flip H</button>
+                <button class="tool-btn" onclick="cycleColor()"><i class="fas fa-palette"></i> Colour overlay</button>
+            </div>
+            <div class="tool-group">
+                <div class="tool-section">View</div>
+                <button class="tool-btn active" id="gridBtn" onclick="toggleGrid()"><i class="fas fa-border-all"></i> Grid</button>
+                <button class="tool-btn" id="snapBtn" onclick="toggleSnap()"><i class="fas fa-magnet"></i> Snap 1 cm</button>
+                <button class="tool-btn" onclick="zoomBy(1.25)"><i class="fas fa-search-plus"></i> Zoom in</button>
+                <button class="tool-btn" onclick="zoomBy(0.8)"><i class="fas fa-search-minus"></i> Zoom out</button>
+            </div>
+            <div class="tool-group">
+                <div class="tool-section">Canvas</div>
+                <button class="tool-btn" onclick="clearAll()"><i class="fas fa-trash"></i> Clear all</button>
+                <button class="tool-btn" onclick="openExport()"><i class="fas fa-download"></i> Export</button>
+            </div>
+        </nav>
 
-        <div class="canvas-area">
-            <div class="canvas" id="canvas"></div>
-        </div>
+        <main class="canvas-area" id="viewport">
+            <div class="paper" id="paper"></div>
+        </main>
 
-        <div class="sidebar">
-            <div class="sidebar-section">
-                <div class="sidebar-title">Sections</div>
+        <aside class="sidebar">
+            <section class="sidebar-section">
+                <div class="sidebar-title">Selected image</div>
+                <div id="inspector"></div>
+            </section>
+            <section class="sidebar-section">
+                <div class="sidebar-title">Images</div>
                 <div id="sectionsList"></div>
-                <button class="btn-add" onclick="addItem()"><i class="fas fa-plus"></i> New Section</button>
-                <button class="btn-remove" onclick="deleteSelected()"><i class="fas fa-trash"></i> Delete Selected</button>
-            </div>
-            
-            <div class="sidebar-section">
-                <div class="sidebar-title">Canvas Info</div>
-                <div class="stat">Items: <span class="stat-val" id="itemCount">0</span></div>
-                <div class="stat">Canvas: <span class="stat-val">800×600</span></div>
-                <div class="stat">Zoom: <span class="stat-val">100%</span></div>
-            </div>
-        </div>
+            </section>
+            <section class="sidebar-section">
+                <div class="sidebar-title">Merged output</div>
+                <div id="outputInfo"></div>
+            </section>
+        </aside>
     </div>
 
-    <div class="status-bar" id="status">Drag sections on canvas • <strong id="tip">Tip: Click "Add Section" to start</strong></div>
+    <div class="status-bar">
+        <span id="status">Ready</span>
+        <span id="cursor"></span>
+    </div>
+</div>
+
+<div class="modal" id="exportModal" hidden>
+    <div class="modal-card">
+        <h2>Export merged image</h2>
+        <div id="exportInfo"></div>
+        <label><input type="checkbox" id="withOverlays" checked> Include overlays (grid and colour)</label>
+        <div class="modal-actions">
+            <button class="btn-secondary" onclick="closeExport()">Cancel</button>
+            <button class="btn-primary" onclick="exportPng()"><i class="fas fa-download"></i> Export PNG</button>
+        </div>
+    </div>
 </div>
 
 <script>
+const PX_PER_CM = 12;            // on-screen pixels per cm at 100% zoom
+const EXPORT_PX_PER_CM = 60;     // browser export resolution (the Python app exports at full DPI)
+const DPI = 300;
+const MIN_PAPER = { w: 50, h: 40 };
+const SCANS = [
+    { wpx: 2048, hpx: 1536 },
+    { wpx: 1800, hpx: 1400 },
+    { wpx: 2400, hpx: 1800 },
+    { wpx: 1600, hpx: 1200 },
+];
+const COLORS = [null, '#ef4444', '#22c55e', '#3b82f6', '#f59e0b'];
+
+const $ = id => document.getElementById(id);
+const paper = $('paper');
+const rulerEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+rulerEl.setAttribute('class', 'ruler');
+paper.appendChild(rulerEl);
+
 let items = [];
 let selectedId = null;
-let currentTool = 'add';
-let draggedItem = null;
-let dragOffset = { x: 0, y: 0 };
+let nextId = 1;
+let scanCount = 0;
+let tool = 'move';
+let zoom = innerWidth < 800 ? Math.min(0.6, Math.max(0.4, ($('viewport').clientWidth - 40) / ((MIN_PAPER.w + 8) * PX_PER_CM))) : 1;
+let showGrid = true;
+let snap = false;
+let drag = null;
+let ruler = null;
+let rulerDrawing = false;
 
-function goBack() {
-    window.location.href = 'index.html#projects';
+const goBack = () => { window.location.href = 'index.html#projects'; };
+const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+const k = () => PX_PER_CM * zoom;
+const selected = () => items.find(i => i.id === selectedId);
+const setStatus = msg => { $('status').textContent = msg; };
+
+function sizeCm(it) {
+    return { w: it.wpx / DPI * 2.54 * it.scale, h: it.hpx / DPI * 2.54 * it.scale };
 }
 
-function setTool(tool) {
-    currentTool = tool;
-    document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
-    event.target.closest('.tool-btn').classList.add('active');
-    updateStatus(`Tool: ${tool === 'add' ? 'Add Section' : 'Select Mode'}`);
+function visualCm(it) {
+    const s = sizeCm(it);
+    return it.rot % 180 ? { w: s.h, h: s.w } : s;
 }
 
-function addItem() {
-    const id = Date.now();
-    const x = Math.random() * 500 + 50;
-    const y = Math.random() * 300 + 50;
-    items.push({ id, x, y, rotation: 0, label: `Image ${items.length + 1}` });
+function bounds() {
+    if (!items.length) return { left: 0, top: 0, right: 0, bottom: 0 };
+    const b = { left: Infinity, top: Infinity, right: -Infinity, bottom: -Infinity };
+    items.forEach(it => {
+        const v = visualCm(it);
+        b.left = Math.min(b.left, it.x);
+        b.top = Math.min(b.top, it.y);
+        b.right = Math.max(b.right, it.x + v.w);
+        b.bottom = Math.max(b.bottom, it.y + v.h);
+    });
+    return b;
+}
+
+function paperPoint(e) {
+    const r = paper.getBoundingClientRect(), K = k();
+    return { x: (e.clientX - r.left - paper.clientLeft) / K, y: (e.clientY - r.top - paper.clientTop) / K };
+}
+
+// Procedural stand-in for a scan: parchment colour, fibres and a label.
+function makeScan(name, wpx, hpx) {
+    const c = document.createElement('canvas');
+    c.width = 480;
+    c.height = Math.round(480 * hpx / wpx);
+    const g = c.getContext('2d');
+    g.fillStyle = '#d8c18d';
+    g.fillRect(0, 0, c.width, c.height);
+    for (let i = 0; i < 1400; i++) {
+        g.fillStyle = `rgba(${Math.random() < .5 ? '110,70,30' : '255,250,235'},${(Math.random() * .18).toFixed(3)})`;
+        g.fillRect(Math.random() * c.width, Math.random() * c.height, 1 + Math.random() * 4, 1);
+    }
+    g.strokeStyle = 'rgba(110,70,30,.28)';
+    g.lineWidth = 1.5;
+    for (let i = 0; i < 16; i++) {
+        const y = Math.random() * c.height;
+        g.beginPath();
+        g.moveTo(0, y);
+        g.bezierCurveTo(c.width * .3, y + Math.random() * 40 - 20, c.width * .6, y + Math.random() * 40 - 20, c.width, y);
+        g.stroke();
+    }
+    g.fillStyle = 'rgba(50,35,20,.8)';
+    g.font = `bold ${Math.round(c.height * .09)}px sans-serif`;
+    g.fillText(name, 14, Math.round(c.height * .14));
+    return c;
+}
+
+function addScan(n) {
+    for (let i = 0; i < n; i++) {
+        scanCount++;
+        const src = SCANS[(scanCount - 1) % SCANS.length];
+        const name = `Fragment ${String.fromCharCode(64 + scanCount)}`;
+        const tex = makeScan(name, src.wpx, src.hpx);
+        const b = bounds();
+        items.push({
+            id: nextId++, name, wpx: src.wpx, hpx: src.hpx,
+            x: items.length ? b.right + 1 : 1, y: 1,
+            rot: 0, flip: false, scale: 1, color: null,
+            tex, url: tex.toDataURL('image/jpeg', .85), el: null,
+        });
+    }
     render();
-    updateStatus(`Added: Image ${items.length}`);
+    setStatus(`Added ${n} image${n > 1 ? 's' : ''} at ${DPI} DPI`);
 }
 
-function deleteSelected() {
-    if (!selectedId) return;
-    items = items.filter(i => i.id !== selectedId);
-    selectedId = null;
+function arrange(mode) {
+    if (!items.length) return;
+    const gap = +$('spacing').value;
+    let x = 1, y = 1, rowH = 0;
+    const cols = Math.ceil(Math.sqrt(items.length));
+    items.forEach((it, i) => {
+        const v = visualCm(it);
+        if (mode === 'h') { it.x = x; it.y = 1; x += v.w + gap; }
+        if (mode === 'v') { it.x = 1; it.y = y; y += v.h + gap; }
+        if (mode === 'g') {
+            if (i && i % cols === 0) { x = 1; y += rowH + gap; rowH = 0; }
+            it.x = x; it.y = y; x += v.w + gap; rowH = Math.max(rowH, v.h);
+        }
+    });
     render();
-    updateStatus('Deleted section');
+    setStatus(`Arranged ${mode === 'h' ? 'horizontally' : mode === 'v' ? 'vertically' : 'in a grid'}, ${gap} cm spacing`);
 }
 
-function clearAll() {
-    items = [];
-    selectedId = null;
+function selectItem(id) {
+    selectedId = id;
     render();
-    updateStatus('Canvas cleared');
+}
+
+function setTool(t) {
+    tool = t;
+    document.querySelectorAll('[data-tool]').forEach(b => b.classList.toggle('active', b.dataset.tool === t));
+    setStatus(t === 'ruler' ? 'Ruler: drag on the canvas to measure in cm' : 'Move: drag images to position them');
+    render();
 }
 
 function rotateSelected() {
-    const item = items.find(i => i.id === selectedId);
-    if (item) {
-        item.rotation = (item.rotation + 90) % 360;
-        render();
-        updateStatus(`Rotated: ${item.rotation}°`);
-    }
+    const it = selected();
+    if (!it) return setStatus('Select an image first');
+    it.rot = (it.rot + 90) % 360;
+    render();
+    setStatus(`Rotated to ${it.rot}°`);
 }
 
 function flipSelected() {
-    const item = items.find(i => i.id === selectedId);
-    if (item) {
-        item.flipped = !item.flipped;
+    const it = selected();
+    if (!it) return setStatus('Select an image first');
+    it.flip = !it.flip;
+    render();
+    setStatus(it.flip ? 'Flipped horizontally' : 'Flip removed');
+}
+
+function cycleColor() {
+    const it = selected();
+    if (!it) return setStatus('Select an image first');
+    it.color = COLORS[(COLORS.indexOf(it.color) + 1) % COLORS.length];
+    render();
+    setStatus(it.color ? `Colour overlay ${it.color}` : 'Colour overlay removed');
+}
+
+function setPos(axis, value) {
+    const it = selected();
+    if (!it) return;
+    it[axis] = Math.max(0, +value || 0);
+    render();
+}
+
+function setScale(value) {
+    const it = selected();
+    if (!it) return;
+    it.scale = parseFloat(value);
+    render();
+    setStatus(`Scale ${Math.round(it.scale * 100)}%`);
+}
+
+function deleteSelected() {
+    const it = selected();
+    if (!it) return;
+    it.el?.remove();
+    items = items.filter(i => i !== it);
+    selectedId = null;
+    render();
+    setStatus('Image deleted');
+}
+
+function clearAll() {
+    items.forEach(i => i.el?.remove());
+    items = [];
+    selectedId = null;
+    ruler = null;
+    scanCount = 0;
+    render();
+    setStatus('Canvas cleared');
+}
+
+function toggleGrid() {
+    showGrid = !showGrid;
+    $('gridBtn').classList.toggle('active', showGrid);
+    render();
+}
+
+function toggleSnap() {
+    snap = !snap;
+    $('snapBtn').classList.toggle('active', snap);
+    setStatus(snap ? 'Snap to 1 cm on' : 'Snap off');
+}
+
+function zoomBy(f) {
+    zoom = clamp(zoom * f, 0.5, 3);
+    render();
+    setStatus(`Zoom ${Math.round(zoom * 100)}%`);
+}
+
+function buildItem(it) {
+    const el = document.createElement('div');
+    el.className = 'item';
+    el.innerHTML = '<div class="scan"></div><span class="item-label"></span>';
+    el.addEventListener('pointerdown', e => {
+        if (tool !== 'move') return;
+        e.stopPropagation();
+        const p = paperPoint(e);
+        drag = { id: it.id, dx: p.x - it.x, dy: p.y - it.y };
+        selectedId = it.id;
         render();
-        updateStatus('Flipped horizontally');
-    }
-}
-
-function arrangeH() {
-    if (!items.length) return;
-    const spacing = 130;
-    items.forEach((item, i) => {
-        item.x = 50 + i * spacing;
-        item.y = 200;
     });
-    render();
-    updateStatus('Arranged horizontally');
+    return el;
 }
 
-function arrangeV() {
-    if (!items.length) return;
-    const spacing = 120;
-    items.forEach((item, i) => {
-        item.x = 300;
-        item.y = 50 + i * spacing;
-    });
-    render();
-    updateStatus('Arranged vertically');
+function placeItem(it, K) {
+    const v = visualCm(it), s = sizeCm(it), el = it.el, scan = el.firstChild;
+    el.style.cssText = `left:${it.x * K}px;top:${it.y * K}px;width:${v.w * K}px;height:${v.h * K}px`;
+    el.classList.toggle('selected', it.id === selectedId);
+    scan.style.cssText = `width:${s.w * K}px;height:${s.h * K}px;` +
+        `transform:translate(-50%,-50%) rotate(${it.rot}deg) scaleX(${it.flip ? -1 : 1});` +
+        `background-image:${it.color ? `linear-gradient(${it.color}66,${it.color}66),` : ''}url(${it.url})`;
+    el.lastChild.textContent = it.name;
 }
 
-function exportDemo() {
-    alert(`✓ Exported 3 sections as TIFF\n- Image 1: 2048×1536 (300 DPI)\n- Image 2: 2048×1536 (300 DPI)\n- Image 3: 2048×1536 (300 DPI)\n\nTotal size: 18.5 MB`);
-    updateStatus('Export complete');
+function drawRuler(W, H, K) {
+    rulerEl.setAttribute('width', W * K);
+    rulerEl.setAttribute('height', H * K);
+    if (!ruler) { rulerEl.innerHTML = ''; return; }
+    const x1 = ruler.x1 * K, y1 = ruler.y1 * K, x2 = ruler.x2 * K, y2 = ruler.y2 * K;
+    const cm = Math.hypot(ruler.x2 - ruler.x1, ruler.y2 - ruler.y1);
+    rulerEl.innerHTML = `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>` +
+        `<circle cx="${x1}" cy="${y1}" r="4"/><circle cx="${x2}" cy="${y2}" r="4"/>` +
+        `<text x="${(x1 + x2) / 2 + 8}" y="${(y1 + y2) / 2 - 8}">${cm.toFixed(1)} cm</text>`;
 }
 
-function updateStatus(msg) {
-    document.getElementById('status').textContent = `${msg} • Total items: ${items.length}`;
+function inspectorHtml(sel) {
+    const v = visualCm(sel);
+    return `
+        <div class="field-row">
+            <label>X (cm)<input type="number" step="0.1" value="${sel.x.toFixed(1)}" onchange="setPos('x', this.value)"></label>
+            <label>Y (cm)<input type="number" step="0.1" value="${sel.y.toFixed(1)}" onchange="setPos('y', this.value)"></label>
+        </div>
+        <label>Scale
+            <select onchange="setScale(this.value)">
+                ${[1, .75, .5, .25].map(s => `<option value="${s}" ${sel.scale === s ? 'selected' : ''}>${s * 100}%</option>`).join('')}
+            </select>
+        </label>
+        <p class="muted">Source ${sel.wpx} × ${sel.hpx} px · ${DPI} DPI</p>
+        <p class="muted">Placed ${v.w.toFixed(1)} × ${v.h.toFixed(1)} cm · rotation ${sel.rot}°${sel.flip ? ' · flipped' : ''}</p>
+        <p class="muted">Overlay: ${sel.color ? `<span class="swatch" style="background:${sel.color}"></span>` : 'none'}</p>
+        <button class="btn-remove" onclick="deleteSelected()"><i class="fas fa-trash"></i> Delete image</button>`;
+}
+
+function updateSidebar(b) {
+    const sel = selected();
+    $('inspector').innerHTML = sel ? inspectorHtml(sel) : '<p class="muted">Click an image to select it.</p>';
+    $('sectionsList').innerHTML = items.length
+        ? items.map(it => {
+            const v = visualCm(it);
+            return `<button class="list-item ${it.id === selectedId ? 'active' : ''}" onclick="selectItem(${it.id})">
+                        ${it.name}<span>${v.w.toFixed(1)} × ${v.h.toFixed(1)} cm</span></button>`;
+        }).join('')
+        : '<p class="muted">No images loaded.</p>';
+
+    const pxW = Math.round((b.right - b.left) / 2.54 * DPI);
+    const pxH = Math.round((b.bottom - b.top) / 2.54 * DPI);
+    const mp = pxW * pxH / 1e6;
+    const preview = mp > 100 ? 30 : mp > 50 ? 50 : mp > 25 ? 70 : 100;
+    $('outputInfo').innerHTML = `
+        <div class="stat">Items: <span class="stat-val">${items.length}</span></div>
+        <div class="stat">Canvas: <span class="stat-val">${(b.right - b.left).toFixed(1)} × ${(b.bottom - b.top).toFixed(1)} cm</span></div>
+        <div class="stat">Full resolution: <span class="stat-val">${pxW} × ${pxH} px · ${mp.toFixed(1)} MP</span></div>
+        <div class="stat">Preview: <span class="stat-val">${preview}%${preview < 100 ? ' (performance mode)' : ''}</span></div>
+        <div class="stat">Zoom: <span class="stat-val">${Math.round(zoom * 100)}%</span></div>`;
 }
 
 function render() {
-    const canvas = document.getElementById('canvas');
-    canvas.innerHTML = '';
-    
-    items.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'drop-item' + (item.id === selectedId ? ' selected' : '');
-        div.textContent = item.label;
-        div.style.left = item.x + 'px';
-        div.style.top = item.y + 'px';
-        div.style.transform = `rotate(${item.rotation}deg) scaleX(${item.flipped ? -1 : 1})`;
-        
-        div.addEventListener('mousedown', (e) => startDrag(e, item.id));
-        div.addEventListener('click', () => {
-            selectedId = item.id;
-            render();
-            updateSectionsList();
-        });
-        
-        canvas.appendChild(div);
+    const K = k(), b = bounds();
+    const W = Math.max(MIN_PAPER.w, b.right + 2), H = Math.max(MIN_PAPER.h, b.bottom + 2);
+    paper.style.width = W * K + 'px';
+    paper.style.height = H * K + 'px';
+    paper.style.backgroundSize = `${5 * K}px ${5 * K}px, ${5 * K}px ${5 * K}px, ${K}px ${K}px, ${K}px ${K}px`;
+    paper.classList.toggle('grid', showGrid);
+    paper.classList.toggle('ruler-mode', tool === 'ruler');
+    items.forEach(it => {
+        if (!it.el) { it.el = buildItem(it); paper.appendChild(it.el); }
+        placeItem(it, K);
     });
-    
-    document.getElementById('itemCount').textContent = items.length;
-    updateSectionsList();
+    paper.querySelectorAll('.item').forEach(el => { if (!items.some(i => i.el === el)) el.remove(); });
+    drawRuler(W, H, K);
+    updateSidebar(b);
 }
 
-function startDrag(e, id) {
-    draggedItem = items.find(i => i.id === id);
-    selectedId = id;
-    const rect = e.target.getBoundingClientRect();
-    dragOffset.x = e.clientX - rect.left;
-    dragOffset.y = e.clientY - rect.top;
-    e.target.classList.add('dragging');
-    render();
-}
+paper.addEventListener('pointerdown', e => {
+    const p = paperPoint(e);
+    if (tool === 'ruler') {
+        ruler = { x1: p.x, y1: p.y, x2: p.x, y2: p.y };
+        rulerDrawing = true;
+        e.preventDefault();
+        render();
+    } else if (selectedId !== null) {
+        selectedId = null;
+        render();
+    }
+});
 
-document.addEventListener('mousemove', (e) => {
-    if (!draggedItem) return;
-    const canvas = document.getElementById('canvas').getBoundingClientRect();
-    draggedItem.x = Math.max(0, Math.min(canvas.width - 120, e.clientX - canvas.left - dragOffset.x));
-    draggedItem.y = Math.max(0, Math.min(canvas.height - 100, e.clientY - canvas.top - dragOffset.y));
+paper.addEventListener('pointermove', e => {
+    const p = paperPoint(e);
+    $('cursor').textContent = `x ${p.x.toFixed(1)} cm · y ${p.y.toFixed(1)} cm`;
+});
+
+document.addEventListener('pointermove', e => {
+    if (drag) {
+        const it = items.find(i => i.id === drag.id);
+        const p = paperPoint(e);
+        let x = Math.max(0, p.x - drag.dx), y = Math.max(0, p.y - drag.dy);
+        if (snap) { x = Math.round(x); y = Math.round(y); }
+        it.x = x;
+        it.y = y;
+        render();
+    }
+    if (rulerDrawing) {
+        const p = paperPoint(e);
+        ruler.x2 = p.x;
+        ruler.y2 = p.y;
+        render();
+    }
+});
+
+function endPointer() {
+    if (rulerDrawing) {
+        rulerDrawing = false;
+        setStatus(`Distance: ${Math.hypot(ruler.x2 - ruler.x1, ruler.y2 - ruler.y1).toFixed(1)} cm`);
+    }
+    drag = null;
+}
+document.addEventListener('pointerup', endPointer);
+document.addEventListener('pointercancel', endPointer);
+
+document.addEventListener('keydown', e => {
+    if (/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return;
+    if (e.key === 'Escape') { selectedId = null; render(); return; }
+    const it = selected();
+    if (!it) return;
+    if (e.key === 'Delete' || e.key === 'Backspace') { deleteSelected(); return; }
+    const step = e.shiftKey ? 1 : 0.1;
+    const moves = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] };
+    if (!moves[e.key]) return;
+    e.preventDefault();
+    it.x = Math.max(0, it.x + moves[e.key][0]);
+    it.y = Math.max(0, it.y + moves[e.key][1]);
     render();
 });
 
-document.addEventListener('mouseup', () => {
-    draggedItem = null;
-    document.querySelectorAll('.drop-item').forEach(d => d.classList.remove('dragging'));
-});
-
-function updateSectionsList() {
-    const list = document.getElementById('sectionsList');
-    list.innerHTML = items.map(item => `
-        <div class="stat" style="padding: 6px 8px; background: #334155; margin-bottom: 4px; border-radius: 3px; cursor: pointer; ${item.id === selectedId ? 'border-left: 3px solid #60a5fa;' : ''}" onclick="selectedId = ${item.id}; render(); updateSectionsList();">
-            ${item.label}
-        </div>
-    `).join('');
+function openExport() {
+    if (!items.length) return setStatus('Add an image before exporting');
+    const b = bounds();
+    const pxW = Math.round((b.right - b.left) / 2.54 * DPI);
+    const pxH = Math.round((b.bottom - b.top) / 2.54 * DPI);
+    $('exportInfo').innerHTML = `
+        <p>Full resolution (Python app): <strong>${pxW} × ${pxH} px</strong> · ${(pxW * pxH / 1e6).toFixed(1)} MP at ${DPI} DPI</p>
+        <p class="muted">This browser export renders a ${EXPORT_PX_PER_CM} px/cm preview PNG.</p>`;
+    $('exportModal').hidden = false;
 }
 
-// Init
-addItem();
+function closeExport() {
+    $('exportModal').hidden = true;
+}
+
+function exportPng() {
+    const withOverlays = $('withOverlays').checked;
+    const b = bounds(), E = EXPORT_PX_PER_CM;
+    const c = document.createElement('canvas');
+    c.width = Math.ceil((b.right - b.left) * E);
+    c.height = Math.ceil((b.bottom - b.top) * E);
+    const g = c.getContext('2d');
+    g.fillStyle = '#ffffff';
+    g.fillRect(0, 0, c.width, c.height);
+    items.forEach(it => {
+        const v = visualCm(it), s = sizeCm(it);
+        const w = s.w * E, h = s.h * E;
+        g.save();
+        g.translate((it.x - b.left + v.w / 2) * E, (it.y - b.top + v.h / 2) * E);
+        g.rotate(it.rot * Math.PI / 180);
+        g.scale(it.flip ? -1 : 1, 1);
+        g.drawImage(it.tex, -w / 2, -h / 2, w, h);
+        if (withOverlays && it.color) {
+            g.globalAlpha = 0.4;
+            g.fillStyle = it.color;
+            g.fillRect(-w / 2, -h / 2, w, h);
+        }
+        g.restore();
+    });
+    if (withOverlays && showGrid) {
+        g.strokeStyle = 'rgba(15,23,42,.35)';
+        g.lineWidth = 1;
+        g.beginPath();
+        for (let i = Math.ceil(b.left); i <= b.right; i++) {
+            const x = (i - b.left) * E + .5;
+            g.moveTo(x, 0); g.lineTo(x, c.height);
+        }
+        for (let i = Math.ceil(b.top); i <= b.bottom; i++) {
+            const y = (i - b.top) * E + .5;
+            g.moveTo(0, y); g.lineTo(c.width, y);
+        }
+        g.stroke();
+    }
+    const a = document.createElement('a');
+    a.download = 'merged_preview.png';
+    a.href = c.toDataURL('image/png');
+    a.click();
+    closeExport();
+    setStatus(`Exported ${c.width} × ${c.height} px preview`);
+}
+
+addScan(3);
+arrange('h');
 </script>
 </body>
 </html>
