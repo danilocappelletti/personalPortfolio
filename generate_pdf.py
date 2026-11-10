@@ -1,11 +1,12 @@
 """
 generate_pdf.py
-Generates a styled PDF of the portfolio in each supported language.
+Generates a styled PDF of the portfolio in each supported language, plus a
+one-page Europass CV (europass.html) per language.
 
 Usage:
     python generate_pdf.py [en|it ...]
 
-Default: builds portfolio_en.pdf and portfolio_it.pdf.
+Default: builds portfolio_en.pdf, portfolio_it.pdf, europass_en.pdf and europass_it.pdf.
 """
 
 import asyncio
@@ -24,6 +25,7 @@ except ImportError:
 
 PORTFOLIO_DIR = Path(__file__).parent.resolve()
 HTML_FILE     = PORTFOLIO_DIR / "index.html"
+EUROPASS_FILE = PORTFOLIO_DIR / "europass.html"
 PUBLIC_URL    = "https://danilocappelletti.github.io/personalPortfolio/"
 LANGUAGES     = {
     "en": {"link_label": "Online portfolio:", "title": "Danilo Cappelletti - Portfolio"},
@@ -143,6 +145,26 @@ async def generate(browser, lang):
     print(f"[{lang}] Done: {output_file.name} ({size_kb} KB)")
 
 
+async def generate_europass(browser, lang):
+    output_file = PORTFOLIO_DIR / f"europass_{lang}.pdf"
+    print(f"[europass {lang}] Output: {output_file.name}")
+
+    # europass.html holds both languages; the lang attribute decides which one is printed.
+    context = await browser.new_context(viewport={"width": 1280, "height": 900})
+    page = await context.new_page()
+    await page.goto(EUROPASS_FILE.as_uri(), wait_until="load", timeout=30000)
+    await page.evaluate("lang => { document.documentElement.lang = lang; }", lang)
+    await page.pdf(
+        path=str(output_file),
+        prefer_css_page_size=True,
+        print_background=True,
+    )
+    await context.close()
+
+    size_kb = output_file.stat().st_size // 1024
+    print(f"[europass {lang}] Done: {output_file.name} ({size_kb} KB)")
+
+
 async def main(langs):
     async with async_playwright() as p:
         browser = await p.chromium.launch(
@@ -150,6 +172,7 @@ async def main(langs):
         )
         for lang in langs:
             await generate(browser, lang)
+            await generate_europass(browser, lang)
         await browser.close()
 
 

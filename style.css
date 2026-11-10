@@ -1282,6 +1282,10 @@ a.contact-value:hover { color:var(--primary-light); }
 
 .pdf-btn, .lang-btn, .hamburger { min-width:44px; min-height:44px; justify-content:center; letter-spacing:0; }
 .nav-actions { flex-shrink:0; }
+@media (max-width:420px) {
+  .pdf-btn { padding:6px 10px; gap:0; }
+  .pdf-btn i { display:none; }
+}
 .lang-btn:hover, .social-icon:hover, .contact-social-link:hover, .footer-socials a:hover { color:var(--bg); }
 .contact .section-header { text-align:center; }
 .contact .section-subtitle { margin-inline:auto; }

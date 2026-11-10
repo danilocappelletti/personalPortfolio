@@ -465,11 +465,16 @@ function setLanguage(lang) {
   const btn = document.getElementById('lang-btn');
   if (btn) btn.textContent = lang === 'en' ? 'IT' : 'EN';
 
-  // Point the PDF download at the matching language version
-  const pdfBtn = document.querySelector('.pdf-btn');
+  // Point the PDF downloads at the matching language version
+  const pdfBtn = document.querySelector('.pdf-btn:not(.europass-btn)');
   if (pdfBtn) {
     pdfBtn.href = `portfolio_${lang}.pdf`;
     pdfBtn.download = `Danilo_Cappelletti_Portfolio_${lang}.pdf`;
+  }
+  const europassBtn = document.querySelector('.europass-btn');
+  if (europassBtn) {
+    europassBtn.href = `europass_${lang}.pdf`;
+    europassBtn.download = `Danilo_Cappelletti_Europass_CV_${lang}.pdf`;
   }
 
   // Auto year
