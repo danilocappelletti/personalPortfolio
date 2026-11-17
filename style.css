@@ -669,6 +669,11 @@ html.js [data-aos].aos-animate { opacity: 1; transform: none; }
 .edu-focus i { color: var(--accent); width: 16px; margin-top: 4px; }
 .edu-decoration { display: none; }
 
+.apprentice-card { grid-column: 1 / -1; }
+.apprentice-desc {
+  color: var(--muted); font-size: 0.9375rem; max-width: 65ch;
+}
+
 .lang-list { border-top: 1px solid var(--line); }
 .lang-item {
   display: grid; grid-template-columns: 2rem 1fr auto; align-items: center; gap: 12px;

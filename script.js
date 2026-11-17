@@ -345,6 +345,9 @@ const i18n = {
     'edu-lang-en-level':     'Professional',
     'edu-lang-pl-name':      'Polish',
     'edu-lang-pl-level':     'Conversational',
+    'edu-apprentice-title':  'Professional Apprenticeship (Apprendistato professionalizzante)',
+    'edu-apprentice-meta':   'Apparound SpA · Pisa, Italy  ·  September 2022 – September 2025',
+    'edu-apprentice-desc':   'Three-year apprenticeship contract at Apparound SpA. A job-based qualification with no academic degree, held under the title of Software Developer.',
 
     'contact-tag':           "Let's talk",
     'contact-title':         'Get In <span class="gradient-text">Touch</span>',
@@ -454,6 +457,9 @@ const i18n = {
     'edu-lang-en-level':     'Professionale',
     'edu-lang-pl-name':      'Polacco',
     'edu-lang-pl-level':     'Livello conversazionale',
+    'edu-apprentice-title':  'Apprendistato professionalizzante (Professional Apprenticeship)',
+    'edu-apprentice-meta':   'Apparound SpA · Pisa, Italia  ·  settembre 2022 – settembre 2025',
+    'edu-apprentice-desc':   'Contratto di apprendistato di tre anni presso Apparound SpA. Qualifica professionalizzante senza titolo di studio accademico, svolta con il ruolo di Software Developer.',
 
     'contact-tag':           'Parliamo',
     'contact-title':         '<span class="gradient-text">Contattami</span>',
