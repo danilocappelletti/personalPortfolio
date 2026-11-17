@@ -177,12 +177,10 @@ html.js [data-aos].aos-animate { opacity: 1; transform: none; }
 }
 .btn:active { transform: scale(0.97); }
 .btn-primary { background: var(--accent); color: var(--accent-ink); }
-.btn-secondary,
-.btn-glass { border-color: var(--line-strong); color: var(--text); }
+.btn-secondary { border-color: var(--line-strong); color: var(--text); }
 @media (hover: hover) and (pointer: fine) {
   .btn-primary:hover { background: var(--accent-hover); }
-  .btn-secondary:hover,
-  .btn-glass:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
 }
 
 .evidence-link {
