@@ -26,7 +26,7 @@ class Particle {
     this.vy = (Math.random() - 0.5) * 0.55;
     this.r  = Math.random() * 1.8 + 0.4;
     this.op = Math.random() * 0.45 + 0.08;
-    this.color = Math.random() > 0.55 ? '124,58,237' : '6,182,212';
+    this.color = Math.random() > 0.8 ? '255,180,84' : '164,172,169';
   }
   update() {
     this.x += this.vx;
@@ -44,7 +44,7 @@ class Particle {
 
 function initParticles() {
   particles = [];
-  const count = Math.min(Math.floor(canvas.w / 13), 110);
+  const count = Math.min(Math.floor(canvas.w / 13), window.innerWidth < 768 ? 40 : 110);
   for (let i = 0; i < count; i++) particles.push(new Particle());
 }
 
@@ -56,7 +56,7 @@ function drawLines() {
       const dist = Math.hypot(dx, dy);
       if (dist < 130) {
         ctx.beginPath();
-        ctx.strokeStyle = `rgba(124,58,237,${0.14 * (1 - dist / 130)})`;
+        ctx.strokeStyle = `rgba(164,172,169,${0.12 * (1 - dist / 130)})`;
         ctx.lineWidth   = 0.7;
         ctx.moveTo(particles[i].x, particles[i].y);
         ctx.lineTo(particles[j].x, particles[j].y);
@@ -148,10 +148,14 @@ document.addEventListener('click', e => {
 
 function highlightNav() {
   const scrollY = window.scrollY + 120;
-  document.querySelectorAll('section[id]').forEach(sec => {
+  const sections = document.querySelectorAll('section[id]');
+  const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+  sections.forEach((sec, i) => {
     const link = document.querySelector(`.nav-link[href="#${sec.id}"]`);
     if (!link) return;
-    const inView = scrollY >= sec.offsetTop && scrollY < sec.offsetTop + sec.offsetHeight;
+    const inView = atBottom
+      ? i === sections.length - 1
+      : scrollY >= sec.offsetTop && scrollY < sec.offsetTop + sec.offsetHeight;
     link.classList.toggle('active', inView);
   });
 }
@@ -252,6 +256,11 @@ const i18n = {
     'hero-description': 'I build React and Vue applications, from enterprise workflows to tools for papyrus reconstruction.',
     'hero-cta-explore': 'View My Work',
     'hero-cta-contact': 'Get In Touch',
+    'spec-base':        'Based in',
+    'spec-exp':         'Experience',
+    'spec-exp-val':     '6+ years, web & enterprise',
+    'spec-stack':       'Core stack',
+    'spec-langs':       'Languages',
     'hero-scroll':      'Scroll',
 
     'about-tag':           'A bit about me',
@@ -356,6 +365,11 @@ const i18n = {
     'hero-description': 'Sviluppo applicazioni React e Vue, dai flussi aziendali agli strumenti per la ricostruzione dei papiri.',
     'hero-cta-explore': 'Vedi i progetti',
     'hero-cta-contact': 'Contattami',
+    'spec-base':        'Sede',
+    'spec-exp':         'Esperienza',
+    'spec-exp-val':     '6+ anni, web ed enterprise',
+    'spec-stack':       'Stack principale',
+    'spec-langs':       'Lingue',
     'hero-scroll':      'Scorri',
 
     'about-tag':           'Un po\' di me',
