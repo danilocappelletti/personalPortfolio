@@ -54,6 +54,7 @@
   <!-- Mobile browser chrome color -->
   <meta name="theme-color" content="#0c0e0f" />
   <script>document.documentElement.classList.add('js');</script>
+  <script>document.documentElement.dataset.theme = localStorage.getItem('dc-theme') || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');</script>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -84,6 +85,8 @@
         <li><a href="#about"      class="nav-link" data-i18n="nav-about">About</a></li>
         <li><a href="#education"  class="nav-link" data-i18n="nav-education">Education</a></li>
         <li><a href="#contact"    class="nav-link" data-i18n="nav-contact">Contact</a></li>
+        <li class="menu-cv"><a class="pdf-btn" href="portfolio_en.pdf" download="Danilo_Cappelletti_Portfolio_en.pdf"><i class="fas fa-file-pdf"></i><span>full CV</span></a></li>
+        <li class="menu-cv"><a class="pdf-btn europass-btn" href="europass_en.pdf" download="Danilo_Cappelletti_Europass_CV_en.pdf"><i class="fas fa-file-lines"></i><span>europass CV</span></a></li>
       </ul>
       <div class="nav-actions">
         <a class="pdf-btn" href="portfolio_en.pdf" download="Danilo_Cappelletti_Portfolio_en.pdf" aria-label="Download full CV (PDF)">
@@ -92,6 +95,7 @@
         <a class="pdf-btn europass-btn" href="europass_en.pdf" download="Danilo_Cappelletti_Europass_CV_en.pdf" aria-label="Download Europass CV">
           <i class="fas fa-file-lines"></i><span>europass CV</span>
         </a>
+        <button class="lang-btn theme-btn" id="theme-btn" aria-label="Switch to light theme"><i class="fas fa-sun" aria-hidden="true"></i></button>
         <button class="lang-btn" id="lang-btn" aria-label="Switch language">IT</button>
         <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-controls="nav-menu" aria-expanded="false">
           <span></span><span></span><span></span>

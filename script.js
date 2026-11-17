@@ -5,6 +5,8 @@ const canvas = document.getElementById('particles-canvas');
 const ctx    = canvas.getContext('2d');
 let particles = [];
 let raf;
+let inkRgb    = '164,172,169';
+let signalRgb = '255,180,84';
 
 function resizeCanvas() {
   const { width, height } = canvas.parentElement.getBoundingClientRect();
@@ -26,7 +28,7 @@ class Particle {
     this.vy = (Math.random() - 0.5) * 0.55;
     this.r  = Math.random() * 1.8 + 0.4;
     this.op = Math.random() * 0.45 + 0.08;
-    this.color = Math.random() > 0.8 ? '255,180,84' : '164,172,169';
+    this.signal = Math.random() > 0.8;
   }
   update() {
     this.x += this.vx;
@@ -37,7 +39,7 @@ class Particle {
   draw() {
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(${this.color},${this.op})`;
+    ctx.fillStyle = `rgba(${this.signal ? signalRgb : inkRgb},${this.op})`;
     ctx.fill();
   }
 }
@@ -56,7 +58,7 @@ function drawLines() {
       const dist = Math.hypot(dx, dy);
       if (dist < 130) {
         ctx.beginPath();
-        ctx.strokeStyle = `rgba(164,172,169,${0.12 * (1 - dist / 130)})`;
+        ctx.strokeStyle = `rgba(${inkRgb},${0.12 * (1 - dist / 130)})`;
         ctx.lineWidth   = 0.7;
         ctx.moveTo(particles[i].x, particles[i].y);
         ctx.lineTo(particles[j].x, particles[j].y);
@@ -141,9 +143,12 @@ function setMenu(open) {
 
 hamburger.addEventListener('click', () => setMenu(!navMenu.classList.contains('open')));
 navLinks.forEach(l => l.addEventListener('click', () => setMenu(false)));
+document.querySelectorAll('.menu-cv a').forEach(l => l.addEventListener('click', () => setMenu(false)));
 document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
 document.addEventListener('click', e => {
-  if (navMenu.classList.contains('open') && !navMenu.contains(e.target) && !hamburger.contains(e.target)) setMenu(false);
+  // The mobile menu covers the screen, so a tap on its empty background (target === navMenu) counts as outside
+  const outside = e.target === navMenu || (!navMenu.contains(e.target) && !hamburger.contains(e.target));
+  if (navMenu.classList.contains('open') && outside) setMenu(false);
 });
 
 function highlightNav() {
@@ -485,17 +490,15 @@ function setLanguage(lang) {
   const btn = document.getElementById('lang-btn');
   if (btn) btn.textContent = lang === 'en' ? 'IT' : 'EN';
 
-  // Point the PDF downloads at the matching language version
-  const pdfBtn = document.querySelector('.pdf-btn:not(.europass-btn)');
-  if (pdfBtn) {
-    pdfBtn.href = `portfolio_${lang}.pdf`;
-    pdfBtn.download = `Danilo_Cappelletti_Portfolio_${lang}.pdf`;
-  }
-  const europassBtn = document.querySelector('.europass-btn');
-  if (europassBtn) {
-    europassBtn.href = `europass_${lang}.pdf`;
-    europassBtn.download = `Danilo_Cappelletti_Europass_CV_${lang}.pdf`;
-  }
+  // Point the PDF downloads at the matching language version (navbar and mobile menu)
+  document.querySelectorAll('.pdf-btn:not(.europass-btn)').forEach(btn => {
+    btn.href = `portfolio_${lang}.pdf`;
+    btn.download = `Danilo_Cappelletti_Portfolio_${lang}.pdf`;
+  });
+  document.querySelectorAll('.europass-btn').forEach(btn => {
+    btn.href = `europass_${lang}.pdf`;
+    btn.download = `Danilo_Cappelletti_Europass_CV_${lang}.pdf`;
+  });
 
   // Auto year
   const yearEl = document.getElementById('footer-year');
@@ -508,5 +511,40 @@ document.getElementById('lang-btn')?.addEventListener('click', () => {
 
 // Apply saved/default language on load
 setLanguage(currentLang);
+
+/* ============================================================
+   THEME
+   ============================================================ */
+const themeBtn  = document.getElementById('theme-btn');
+const themeMeta = document.querySelector('meta[name="theme-color"]');
+let currentTheme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+
+function setTheme(theme, persist = true) {
+  currentTheme = theme;
+  document.documentElement.dataset.theme = theme;
+  if (persist) localStorage.setItem('dc-theme', theme);
+
+  const light = theme === 'light';
+  inkRgb    = light ? '40,50,46'  : '164,172,169';
+  signalRgb = light ? '168,90,0'  : '255,180,84';
+  themeMeta?.setAttribute('content', light ? '#f5f6f2' : '#0c0e0f');
+
+  // Icon and label name the theme the button will switch to
+  if (themeBtn) {
+    themeBtn.querySelector('i').className = light ? 'fas fa-moon' : 'fas fa-sun';
+    themeBtn.setAttribute('aria-label', light ? 'Switch to dark theme' : 'Switch to light theme');
+  }
+}
+
+themeBtn?.addEventListener('click', () => {
+  setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+});
+
+setTheme(currentTheme, false);
+
+// Follow the OS scheme until the visitor picks one with the toggle
+matchMedia('(prefers-color-scheme: light)').addEventListener('change', e => {
+  if (!localStorage.getItem('dc-theme')) setTheme(e.matches ? 'light' : 'dark', false);
+});
 
 
