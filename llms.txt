@@ -12,9 +12,9 @@ Language: English (default) with an Italian version available on the site (toggl
 - LinkedIn: https://it.linkedin.com/in/danilo-cappelletti-b9b3731a3
 
 ## Work experience
-- Software Developer, Stetel Srl (Livorno, Italy), November 2025 – June 2026: Vue.js web applications, modular JavaScript, Docker-based development environments, REST API integration, agile team.
-- Software Developer, Apparound SpA (Pisa, Italy), September 2022 – September 2025: enterprise full-stack applications with React.js and Node.js, REST API design and integration, cross-functional technical coordination.
-- Web Developer, Unikey Corporation (Pisa, Italy), September 2020 – September 2022: WordPress websites, performance optimisation with HTML, CSS and Vanilla JavaScript, responsive React.js interfaces.
+- Software Developer, Stetel Srl (Livorno, Italy), November 2025 – June 2026: Vue.js and Node.js web applications, modular JavaScript, Docker-based development environments, REST API integration, agile team.
+- Software Developer, Apparound SpA (Pisa, Italy), September 2022 – September 2025: enterprise web applications with React.js, REST API design and integration, cross-functional technical coordination.
+- Web Developer, Unikey Corporation (Pisa, Italy), September 2020 – September 2022: WordPress websites, performance optimisation with HTML, CSS and Vanilla JavaScript, responsive React.js and Node.js interfaces.
 - Web Developer, JC Management (Dubai, UAE, remote), May 2021 – August 2022: reusable React.js front-end components and responsive, pixel-precise implementations for a Dubai-based client.
 
 ## Projects

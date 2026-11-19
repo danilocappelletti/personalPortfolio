@@ -166,15 +166,6 @@ function highlightNav() {
 }
 
 /* ============================================================
-   SCROLL-REVEAL (IntersectionObserver)
-   ============================================================ */
-const revealObserver = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('aos-animate'); });
-}, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
-
-document.querySelectorAll('[data-aos]').forEach(el => revealObserver.observe(el));
-
-/* ============================================================
    COUNTER ANIMATION (about stats)
    ============================================================ */
 function animateCounter(el, target, duration = 1800) {
@@ -258,7 +249,7 @@ const i18n = {
     'skip-content': 'Skip to content',
     'hero-greeting':    'Software Developer / Pisa, Italy',
     'hero-context': '6+ years / Enterprise web & research tools',
-    'hero-description': 'I build React and Vue applications, from enterprise workflows to tools for papyrus reconstruction.',
+    'hero-description': 'Front-end and full-stack developer building React, Vue and Node.js applications, from enterprise workflows to tools for papyrus reconstruction.',
     'hero-cta-explore': 'View My Work',
     'hero-cta-contact': 'Get In Touch',
     'spec-base':        'Based in',
@@ -271,7 +262,7 @@ const i18n = {
     'about-tag':           'A bit about me',
     'about-title':         'About <span class="gradient-text">Me</span>',
     'about-heading':       'Software Developer based in <span class="gradient-text">Pisa, Italy</span>',
-    'about-bio-1':         'I\'m a software developer based in Pisa with over six years of experience. I\'ve built React and Node.js applications at Apparound, Vue.js applications at Stetel, and specialist tools in Python.',
+    'about-bio-1':         'I\'m a software developer based in Pisa with over six years of experience. I\'ve built React applications at Apparound as a front-end developer in an agile team, Vue.js and Node.js applications at Stetel, and specialist tools in Python.',
     'about-bio-2':         'I\'ve worked with product and design teams on enterprise software, and I was the sole developer of the TIFF editor. I like turning a specific, difficult workflow into software people can actually use.',
     'about-stat-years':     'Years Exp.',
     'about-stat-companies': 'Companies',
@@ -292,11 +283,13 @@ const i18n = {
     'stack-langs': 'Languages',
     'stack-frameworks': 'Frameworks & libraries',
     'stack-tools': 'Tools & platforms',
+    'stack-ai': 'AI tools',
+    'stack-ai-note': 'About two years of day-to-day agent-assisted development: GitHub Copilot in VS Code for Python, plus local models run with Ollama and llama.cpp, and Unsloth for model work.',
 
     'projects-tag':   'Selected work',
     'projects-title': 'Real problems.<br /><span class="gradient-text">Practical solutions.</span>',
     'projects-gymbuddy-subtitle': 'Personal Next.js Project',
-    'projects-gymbuddy-desc': 'A personal project built to try out Next.js and Prisma: a booking platform with a credit system, instructor management and detailed reporting for classes and activities.',
+    'projects-gymbuddy-desc': 'A personal demo built to try out Next.js and Prisma: a booking platform with a credit system, instructor management and detailed reporting. It was built for practice and has not been used by real users.',
     'projects-tiff-subtitle': 'Papyrus Reconstruction Tool',
     'projects-tiff-desc': 'A specialist tool for arranging very large scans and reconstructing damaged papyri.',
     'projects-sensor-subtitle': 'Test project: sensor dashboard',
@@ -313,10 +306,13 @@ const i18n = {
         'tiff-decision': 'Navigating very large source files is slow. The design uses reduced-resolution previews for navigation and keeps the original data for export, so the interface stays responsive without losing detail in the output.',
         'tiff-result': 'The project received the EU Seal of Excellence in recognition of its quality, but was not funded because no funds were available.',
     'tiff-demo-link': 'Open interface demo',
+    'tiff-letter-link': 'Read the President\'s letter (PDF)',
+    'edu-course-meta': 'Udemy · 52.5 hours · January 2020',
+    'edu-course-link': 'View certificate',
     'sensor-kicker': '02 / Test project',
     'sensor-caption': 'Test project · browser demo with sample data',
     'sensor-demo-link': 'Explore the demo',
-    'gym-kicker': '03 / Personal full-stack project',
+    'gym-kicker': '03 / Personal demo',
     'gym-bookings': 'Activity & class bookings',
     'gym-payments': 'Credits & payment workflows',
     'gym-management': 'Instructor management & reporting',
@@ -325,9 +321,11 @@ const i18n = {
     'exp-tag':      "Where I've worked",
     'exp-title':    'Work <span class="gradient-text">Experience</span>',
     'exp-current':  'Current',
-    'exp-job1-desc': 'Designed and built responsive web applications on a Vue.js architecture, writing clean, modular JavaScript that scales over time. Managed Docker-based development environments to keep local and production workflows aligned, and integrated REST APIs while collaborating in an agile team.',
-    'exp-job2-desc': 'Developed and architected enterprise-grade full-stack applications with React.js on the front end and Node.js on the server. Designed and integrated REST APIs for efficient client–server communication, coordinated technical work across cross-functional teams, and delivered secure, optimised code to strict enterprise standards.',
-    'exp-job3-desc': 'Managed, customised and maintained WordPress-based websites and ecosystems. Optimised performance and load times with hand-written HTML, CSS and Vanilla JavaScript, built responsive UIs with React.js, and partnered with product and design teams to turn requirements into accessible, high-performing web experiences.',
+    'exp-job1-desc': 'Designed and built responsive web applications on a Vue.js and Node.js architecture, writing clean, modular JavaScript that scales over time. Managed Docker-based development environments to keep local and production workflows aligned, and integrated REST APIs while collaborating in an agile team. Main project: a router simulator for a major telecom operator.',
+    'exp-job1-context': 'ICT company founded in 1991 in Livorno, delivering IT solutions and wireless technologies to businesses and public institutions.',
+    'exp-job2-context': 'International software house founded in 2008, serving telecommunications, energy and industrial manufacturing with a sales platform for configuring and quoting offers.',
+    'exp-job2-desc': 'Front-end developer in an agile team, building enterprise-grade web applications with React.js. Designed and integrated REST APIs for efficient client–server communication, coordinated technical work across cross-functional teams, and delivered secure, optimised code to strict enterprise standards.',
+    'exp-job3-desc': 'Managed, customised and maintained WordPress-based websites and ecosystems. Optimised performance and load times with hand-written HTML, CSS and Vanilla JavaScript, built responsive UIs with React.js and Node.js, and partnered with product and design teams to turn requirements into accessible, high-performing web experiences.',
     'exp-job4-desc': 'Built interactive, reusable front-end components with React.js and core JavaScript. Implemented pixel-perfect designs with advanced HTML5/CSS3 and ensured smooth, responsive experiences across mobile, tablet and desktop — working fully remote for a Dubai-based client.',
 
     'edu-tag':        'My background',
@@ -370,7 +368,7 @@ const i18n = {
     'skip-content': 'Vai al contenuto',
     'hero-greeting':    'Software Developer / Pisa, Italia',
     'hero-context': '6+ anni / Applicazioni enterprise e strumenti di ricerca',
-    'hero-description': 'Sviluppo applicazioni React e Vue, dai flussi aziendali agli strumenti per la ricostruzione dei papiri.',
+    'hero-description': 'Sviluppatore front-end e full-stack: realizzo applicazioni con React, Vue e Node.js, dai flussi aziendali agli strumenti per la ricostruzione dei papiri.',
     'hero-cta-explore': 'Vedi i progetti',
     'hero-cta-contact': 'Contattami',
     'spec-base':        'Sede',
@@ -383,7 +381,7 @@ const i18n = {
     'about-tag':           'Un po\' di me',
     'about-title':         'Chi <span class="gradient-text">Sono</span>',
     'about-heading':       'Software Developer a <span class="gradient-text">Pisa, Italia</span>',
-    'about-bio-1':             'Sono uno sviluppatore software di Pisa con oltre sei anni di esperienza. Ho sviluppato applicazioni React e Node.js in Apparound, applicazioni Vue.js in Stetel e strumenti specialistici in Python.',
+    'about-bio-1':             'Sono uno sviluppatore software di Pisa con oltre sei anni di esperienza. Ho sviluppato applicazioni React in Apparound come front-end developer in team agile, applicazioni Vue.js e Node.js in Stetel e strumenti specialistici in Python.',
         'about-bio-2':         'Ho lavorato con team di prodotto e design su software enterprise e ho sviluppato da solo l\'editor TIFF. Mi piace trasformare un flusso di lavoro specifico e complesso in un software che le persone usano davvero.',
     'about-stat-years':     'Anni Esp.',
     'about-stat-companies': 'Aziende',
@@ -404,11 +402,13 @@ const i18n = {
         'stack-langs': 'Linguaggi',
         'stack-frameworks': 'Framework e librerie',
         'stack-tools': 'Strumenti e piattaforme',
+        'stack-ai': 'Strumenti AI',
+        'stack-ai-note': 'Circa due anni di sviluppo quotidiano assistito da agenti AI: GitHub Copilot in VS Code per Python, più modelli locali eseguiti con Ollama e llama.cpp, e Unsloth per il lavoro sui modelli.',
 
     'projects-tag':   'Progetti selezionati',
         'projects-title': 'Problemi concreti.<br /><span class="gradient-text">Soluzioni pratiche.</span>',
         'projects-gymbuddy-subtitle': 'Progetto personale Next.js',
-        'projects-gymbuddy-desc': 'Progetto personale per sperimentare Next.js e Prisma: una piattaforma di prenotazione con sistema a crediti, gestione degli istruttori e report dettagliati su corsi e attività.',
+        'projects-gymbuddy-desc': 'Demo personale per sperimentare Next.js e Prisma: una piattaforma di prenotazione con sistema a crediti, gestione degli istruttori e report dettagliati. È nata per esercizio e non è stata usata da utenti reali.',
         'projects-tiff-subtitle': 'Strumento per la ricostruzione dei papiri',
     'projects-tiff-desc': 'Uno strumento specialistico per disporre scansioni di grandi dimensioni e ricostruire papiri danneggiati.',
         'projects-sensor-subtitle': 'Progetto di test: dashboard sensori',
@@ -425,10 +425,13 @@ const i18n = {
         'tiff-decision': 'Navigare file sorgente molto grandi è lento. Il progetto usa anteprime a risoluzione ridotta per la navigazione e conserva i dati originali per l\'esportazione: l\'interfaccia resta reattiva senza perdere dettaglio nel risultato finale.',
         'tiff-result': 'Il progetto ha ricevuto il Sigillo di Eccellenza dell\'UE, a riconoscimento della sua qualità, ma non è stato finanziato per mancanza di fondi.',
     'tiff-demo-link': 'Apri la demo dell\'interfaccia',
+    'tiff-letter-link': 'Leggi la lettera del Presidente (PDF)',
+    'edu-course-meta': 'Udemy · 52,5 ore · gennaio 2020',
+    'edu-course-link': 'Vedi il certificato',
     'sensor-kicker': '02 / Progetto di test',
     'sensor-caption': 'Progetto di test · demo nel browser con dati di esempio',
     'sensor-demo-link': 'Esplora la demo',
-    'gym-kicker': '03 / Progetto personale full-stack',
+    'gym-kicker': '03 / Demo personale',
     'gym-bookings': 'Prenotazioni di attività e corsi',
     'gym-payments': 'Crediti e flussi di pagamento',
     'gym-management': 'Gestione istruttori e reportistica',
@@ -437,9 +440,11 @@ const i18n = {
     'exp-tag':      'Dove ho lavorato',
     'exp-title':    'Esperienza <span class="gradient-text">Lavorativa</span>',
     'exp-current':  'In corso',
-    'exp-job1-desc':     'Progettazione e sviluppo di applicazioni web responsive basate su Vue.js, con JavaScript pulito e modulare pensato per crescere nel tempo. Gestione degli ambienti di sviluppo con Docker per mantenere allineati sviluppo locale e produzione, integrazione di API REST e lavoro in un team agile.',
-        'exp-job2-desc': 'Sviluppo e progettazione di applicazioni full-stack di livello enterprise, con React.js sul front-end e Node.js sul server. Progettazione e integrazione di API REST per la comunicazione tra client e server, coordinamento tecnico tra team diversi e codice sicuro e ottimizzato, nel rispetto di standard aziendali rigorosi.',
-        'exp-job3-desc': 'Gestione, personalizzazione e manutenzione di siti e ambienti WordPress. Ottimizzazione di prestazioni e tempi di caricamento con HTML, CSS e JavaScript scritti a mano, interfacce responsive con React.js e collaborazione con i team di prodotto e design per trasformare i requisiti in esperienze web accessibili e veloci.',
+    'exp-job1-desc':     'Progettazione e sviluppo di applicazioni web responsive basate su Vue.js e Node.js, con JavaScript pulito e modulare pensato per crescere nel tempo. Gestione degli ambienti di sviluppo con Docker per mantenere allineati sviluppo locale e produzione, integrazione di API REST e lavoro in un team agile. Progetto principale: un simulatore di router per un grande operatore di telecomunicazioni.',
+        'exp-job1-context': 'Azienda ICT fondata nel 1991 a Livorno, con soluzioni IT e tecnologie wireless per imprese e pubbliche amministrazioni.',
+        'exp-job2-context': 'Software house internazionale fondata nel 2008, attiva nelle telecomunicazioni, nell\'energia e nella produzione industriale, con una piattaforma di vendita per configurare e quotare le offerte.',
+        'exp-job2-desc': 'Sviluppatore front-end in team agile, con sviluppo di applicazioni web di livello enterprise con React.js. Progettazione e integrazione di API REST per la comunicazione tra client e server, coordinamento tecnico tra team diversi e codice sicuro e ottimizzato, nel rispetto di standard aziendali rigorosi.',
+        'exp-job3-desc': 'Gestione, personalizzazione e manutenzione di siti e ambienti WordPress. Ottimizzazione di prestazioni e tempi di caricamento con HTML, CSS e JavaScript scritti a mano, interfacce responsive con React.js e Node.js, collaborazione con i team di prodotto e design per trasformare i requisiti in esperienze web accessibili e veloci.',
         'exp-job4-desc': 'Sviluppo di componenti front-end interattivi e riutilizzabili con React.js e JavaScript. Realizzazione fedele dei design con HTML5/CSS3 avanzato, per esperienze fluide su mobile, tablet e desktop, lavorando in remoto per un cliente di Dubai.',
 
         'edu-tag':        'Il mio percorso',
