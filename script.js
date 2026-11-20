@@ -284,7 +284,7 @@ const i18n = {
     'stack-frameworks': 'Frameworks & libraries',
     'stack-tools': 'Tools & platforms',
     'stack-ai': 'AI tools',
-    'stack-ai-note': 'About two years of day-to-day agent-assisted development: GitHub Copilot in VS Code for Python, plus local models run with Ollama and llama.cpp, and Unsloth for model work.',
+    'stack-ai-note': 'About two years of day-to-day agent-assisted development: GitHub Copilot in VS Code, plus local models run with Ollama and llama.cpp, and Unsloth for model work.',
 
     'projects-tag':   'Selected work',
     'projects-title': 'Real problems.<br /><span class="gradient-text">Practical solutions.</span>',
@@ -403,7 +403,7 @@ const i18n = {
         'stack-frameworks': 'Framework e librerie',
         'stack-tools': 'Strumenti e piattaforme',
         'stack-ai': 'Strumenti AI',
-        'stack-ai-note': 'Circa due anni di sviluppo quotidiano assistito da agenti AI: GitHub Copilot in VS Code per Python, più modelli locali eseguiti con Ollama e llama.cpp, e Unsloth per il lavoro sui modelli.',
+        'stack-ai-note': 'Circa due anni di sviluppo quotidiano assistito da agenti AI: GitHub Copilot in VS Code, più modelli locali eseguiti con Ollama e llama.cpp, e Unsloth per il lavoro sui modelli.',
 
     'projects-tag':   'Progetti selezionati',
         'projects-title': 'Problemi concreti.<br /><span class="gradient-text">Soluzioni pratiche.</span>',
